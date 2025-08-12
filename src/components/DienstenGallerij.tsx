@@ -139,13 +139,25 @@ const DienstenGallerij = () => {
             Onze Expertise
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Professionele Schoonmaakoplossingen
+            Van klein kantoor tot groot complex
           </h2>
-          <p className="text-gray-600 max-w-3xl mx-auto text-lg leading-relaxed">
-            BWS Schoonmaak levert gespecialiseerde schoonmaakdiensten voor verschillende sectoren. 
-            Van kantoorpanden tot zorginstellingen - onze gecertificeerde teams zorgen voor optimale 
-            hygiëne en representativiteit volgens de hoogste kwaliteitsstandaarden.
+          <p className="text-gray-600 max-w-3xl mx-auto text-lg leading-relaxed mb-6">
+            <strong>500+ bedrijven in Wijchen en omgeving</strong> vertrouwen ons al jaren voor professionele schoonmaakdiensten.
           </p>
+          <div className="flex flex-wrap justify-center gap-6 text-sm font-medium">
+            <div className="flex items-center gap-2 text-[color:var(--primary)]">
+              <div className="w-2 h-2 bg-[color:var(--primary)] rounded-full"></div>
+              24/7 bereikbaar
+            </div>
+            <div className="flex items-center gap-2 text-green-600">
+              <div className="w-2 h-2 bg-green-600 rounded-full"></div>
+              100% milieuvriendelijk
+            </div>
+            <div className="flex items-center gap-2 text-blue-600">
+              <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+              ISO-gecertificeerd
+            </div>
+          </div>
         </motion.div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">

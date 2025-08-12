@@ -1,318 +1,453 @@
-import { Metadata } from "next";
-import ContactForm from "@/components/ContactForm";
-import Image from "next/image";
+"use client";
 
-export const metadata: Metadata = {
-  title: "Contact - BWS Schoonmaak",
-  description: "Neem contact op met BWS Schoonmaak voor al uw schoonmaakbehoeften. Vraag een vrijblijvende offerte aan of stel uw vragen over onze diensten.",
-  openGraph: {
-    title: "Contact - BWS Schoonmaak",
-    description: "Neem contact op met BWS Schoonmaak voor al uw schoonmaakbehoeften. Vraag een vrijblijvende offerte aan of stel uw vragen over onze diensten.",
-    images: [{ url: "/og-contact.jpg" }],
+import { motion } from "framer-motion";
+import Image from "next/image";
+import { COMPANY_INFO } from "@/lib/constants";
+
+const contactMethods = [
+  {
+    title: "Bel ons direct",
+    description: "Voor spoedgevallen en directe vragen",
+    icon: "📞",
+    value: COMPANY_INFO.contact.phone,
+    href: `tel:${COMPANY_INFO.contact.phoneRaw}`,
+    available: "Ma-Vr 8:00-18:00, Weekend op afspraak"
   },
-};
+  {
+    title: "Stuur een email",
+    description: "Voor uitgebreide vragen en offertes",
+    icon: "✉️",
+    value: COMPANY_INFO.contact.email,
+    href: `mailto:${COMPANY_INFO.contact.email}`,
+    available: "Binnen 24 uur reactie"
+  },
+  {
+    title: "Kom langs",
+    description: "Voor een persoonlijk gesprek",
+    icon: "📍",
+    value: COMPANY_INFO.contact.address.full,
+    href: `https://maps.google.com/?q=${encodeURIComponent(COMPANY_INFO.contact.address.full)}`,
+    available: "Op afspraak"
+  }
+];
+
+const faqs = [
+  {
+    question: "Wat kost een schoonmaakbeurt?",
+    answer: "De kosten zijn afhankelijk van de grootte van de ruimte, frequentie en specifieke wensen. Wij maken graag een vrijblijvende offerte op maat voor uw situatie."
+  },
+  {
+    question: "Hoe snel kunnen jullie beginnen?",
+    answer: "Voor spoedklussen kunnen wij vaak binnen 24 uur ter plaatse zijn. Voor reguliere schoonmaak plannen we meestal binnen 1-2 weken in."
+  },
+  {
+    question: "Zijn jullie verzekerd?",
+    answer: "Ja, wij zijn volledig verzekerd voor aansprakelijkheid en schade. Onze verzekeringspapieren kunnen we op verzoek ter inzage geven."
+  },
+  {
+    question: "Gebruiken jullie milieuvriendelijke producten?",
+    answer: "Absoluut! Wij werken uitsluitend met gecertificeerde, milieuvriendelijke schoonmaakmiddelen die veilig zijn voor mens en milieu."
+  },
+  {
+    question: "Kan ik een proefschoonmaak krijgen?",
+    answer: "Ja, voor nieuwe klanten bieden wij graag een proefschoonmaak aan zodat u onze kwaliteit kunt ervaren voordat u een contract aangaat."
+  },
+  {
+    question: "Werken jullie ook in het weekend?",
+    answer: "Voor bepaalde diensten en spoedgevallen werken wij ook in het weekend. Dit plannen we altijd in overleg en tegen een weekendtoeslag."
+  }
+];
 
 export default function ContactPage() {
   return (
-    <>
+    <main>
       {/* Hero Section */}
-      <section className="relative pt-[100px] sm:pt-[120px] md:pt-[140px] pb-16 sm:pb-20 bg-gradient-to-br from-[color:var(--primary)] to-[color:var(--accent)] text-white overflow-hidden">
-        <div className="absolute inset-0 bg-black/10"></div>
-        <div className="container relative z-10">
-          <div className="max-w-4xl mx-auto text-center">
-            <span className="inline-block px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-white/90 text-sm font-medium mb-6">
-              Contact
-            </span>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6">
-              Laten we samenwerken
-            </h1>
-            <p className="text-lg sm:text-xl md:text-2xl text-white/90 leading-relaxed mb-6 sm:mb-8">
-              Heeft u vragen over onze diensten of wilt u een offerte aanvragen? 
-              Ons team staat klaar om u te helpen met al uw schoonmaakbehoeften.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href="#contact-form" className="btn-white">
-                Vraag offerte aan
-              </a>
-              <a href="tel:+31638935230" className="btn-white-outline">
-                Bel direct: 06 38935230
-              </a>
+      <section className="bg-white pt-[120px] sm:pt-[140px] pb-20 lg:pb-24">
+        <div className="container px-4 sm:px-6">
+          {/* BWS Badge */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-8"
+          >
+            <div className="inline-flex items-center gap-3 bg-blue-50 text-blue-600 px-4 py-2 rounded-full text-sm font-medium border border-blue-100">
+              <div className="w-6 h-6 bg-gradient-to-br from-blue-600 to-blue-700 rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-xs">BWS</span>
+              </div>
+              CONTACT
             </div>
-          </div>
-        </div>
-        
-        {/* Decorative elements */}
-        <div className="absolute top-10 sm:top-20 right-4 sm:right-10 w-20 sm:w-32 h-20 sm:h-32 bg-white/10 rounded-full blur-2xl"></div>
-        <div className="absolute bottom-10 sm:bottom-20 left-4 sm:left-10 w-32 sm:w-48 h-32 sm:h-48 bg-white/5 rounded-full blur-3xl"></div>
-      </section>
+          </motion.div>
 
-      <section id="contact-form" className="py-20 bg-[color:var(--light-bg)] scroll-mt-20">
-        <div className="container">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">
-                Contactgegevens
-              </h2>
-              <p className="text-gray-600 mb-8 text-lg leading-relaxed">
-                Vul het formulier in of neem direct contact met ons op. 
-                We helpen u graag verder met al uw vragen en wensen.
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center max-w-7xl mx-auto">
+            
+            {/* Left Column - Content */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-[1.1]">
+                Laten we{" "}
+                <span className="text-blue-600">praten</span> over uw schoonmaakwensen.
+              </h1>
+              
+              <p className="text-xl text-gray-600 leading-relaxed mb-8">
+                Heeft u vragen over onze diensten of wilt u een vrijblijvende offerte? 
+                Wij staan klaar om u te helpen. Kies de manier van contact die het beste bij u past.
               </p>
 
-              <div className="space-y-6 mb-8">
-                <div className="flex items-start">
-                  <div className="text-[color:var(--primary)] mr-4">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                      />
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                      />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-medium text-gray-900 mb-1">
-                      Adres
-                    </h3>
-                    <p className="text-gray-600">
-                      Heumenseweg 37
-                      <br />
-                      6603 CX Wijchen
-                    </p>
-                  </div>
+              {/* Quick Stats */}
+              <div className="grid grid-cols-3 gap-6 mb-8">
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-blue-600 mb-1">24u</div>
+                  <div className="text-gray-600 text-sm">Reactietijd</div>
                 </div>
-
-                <div className="flex items-start">
-                  <div className="text-[color:var(--primary)] mr-4">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                      />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-medium text-gray-900 mb-1">
-                      Telefoon
-                    </h3>
-                    <p className="text-gray-600">06 38935230</p>
-                  </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-green-600 mb-1">15+</div>
+                  <div className="text-gray-600 text-sm">Jaar ervaring</div>
                 </div>
-
-                <div className="flex items-start">
-                  <div className="text-[color:var(--primary)] mr-4">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                      />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-medium text-gray-900 mb-1">
-                      E-mail
-                    </h3>
-                    <p className="text-gray-600">info@bwsschoonmaak.nl</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start">
-                  <div className="text-[color:var(--primary)] mr-4">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-medium text-gray-900 mb-1">
-                      Openingstijden
-                    </h3>
-                    <p className="text-gray-600">
-                      Maandag - Vrijdag: 08:00 - 18:00
-                      <br />
-                      Zaterdag: 09:00 - 15:00
-                      <br />
-                      Zondag: Gesloten
-                    </p>
-                  </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-orange-600 mb-1">98%</div>
+                  <div className="text-gray-600 text-sm">Tevredenheid</div>
                 </div>
               </div>
 
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">
-                Volg ons op social media
-              </h3>
-              <div className="flex space-x-4">
-                <a
-                  href="https://facebook.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-600 hover:text-[color:var(--primary)] transition-colors"
+              {/* Direct CTA */}
+              <div className="flex flex-col sm:flex-row gap-4">
+                <a 
+                  href="tel:+31638935230"
+                  className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z" />
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
                   </svg>
+                  Bel direct: 06 38935230
                 </a>
-                <a
-                  href="https://instagram.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-600 hover:text-[color:var(--primary)] transition-colors"
+                
+                <a 
+                  href="mailto:info@bwsschoonmaak.nl"
+                  className="inline-flex items-center gap-2 bg-white hover:bg-gray-50 text-gray-900 px-6 py-3 rounded-lg font-semibold transition-all duration-300 border border-gray-200 hover:border-gray-300"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
                   </svg>
-                </a>
-                <a
-                  href="https://linkedin.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-600 hover:text-[color:var(--primary)] transition-colors"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z" />
-                  </svg>
+                  Stuur email
                 </a>
               </div>
-            </div>
-            <div>
-              <ContactForm />
-            </div>
+            </motion.div>
+
+            {/* Right Column - Image */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="relative"
+            >
+              <div className="relative bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 shadow-2xl">
+                <div className="relative w-full h-[400px] lg:h-[500px] rounded-xl overflow-hidden">
+                  <Image
+                    src="https://images.unsplash.com/photo-1556745757-8d76bdb6984b?w=800&h=600&fit=crop"
+                    alt="Contact BWS Schoonmaak"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                
+
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      <section className="py-20 bg-white">
-        <div className="container">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
-            Onze locatie
-          </h2>
-          <div className="rounded-lg overflow-hidden shadow-md h-96 relative">
-            <Image
-              src="/map.jpg"
-              alt="Locatie van BWS Schoonmaak"
-              fill
-              sizes="(max-width: 768px) 100vw, 1200px"
-              className="object-cover"
-            />
-          </div>
-        </div>
-      </section>
-
-      <section className="py-20 bg-[color:var(--light-bg)]">
-        <div className="container">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-              Veelgestelde vragen
+      {/* Contact Methods */}
+      <section className="bg-gray-50 py-20 lg:py-24">
+        <div className="container px-4 sm:px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-16"
+          >
+            <div className="text-sm font-medium text-blue-600 mb-4 uppercase tracking-wide">
+              KIES UW VOORKEUR
+            </div>
+            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
+              Hoe wilt u contact met ons opnemen?
             </h2>
-            <p className="text-gray-600 mb-12 text-lg">
-              Hieronder vindt u antwoorden op een aantal veelgestelde vragen.
-              Staat uw vraag er niet bij? Neem dan gerust contact met ons op.
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {contactMethods.map((method, index) => (
+              <motion.a
+                key={index}
+                href={method.href}
+                target={method.href.startsWith('http') ? '_blank' : undefined}
+                rel={method.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 group hover:-translate-y-1 text-center block"
+              >
+                <div className="text-4xl mb-4">{method.icon}</div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">{method.title}</h3>
+                <p className="text-gray-600 mb-4">{method.description}</p>
+                <div className="font-medium text-blue-600 mb-2 group-hover:text-blue-700 transition-colors">
+                  {method.value}
+                </div>
+                <div className="text-sm text-gray-500">{method.available}</div>
+              </motion.a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="bg-white py-20 lg:py-24">
+        <div className="container px-4 sm:px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-16"
+          >
+            <div className="text-sm font-medium text-blue-600 mb-4 uppercase tracking-wide">
+              VEELGESTELDE VRAGEN
+            </div>
+            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
+              Antwoorden op uw vragen
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Hier vindt u antwoorden op de meest gestelde vragen. Staat uw vraag er niet bij? 
+              Neem gerust contact met ons op.
             </p>
+          </motion.div>
 
-            <div className="space-y-6 text-left">
-              <div className="bg-white p-8 rounded-xl shadow-lg border border-gray-100 hover:shadow-xl transition-shadow duration-300">
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">
-                  Hoe kan ik een offerte aanvragen?
-                </h3>
-                <p className="text-gray-600 leading-relaxed">
-                  U kunt een offerte aanvragen door het contactformulier in te
-                  vullen, ons te bellen of een e-mail te sturen. We nemen dan zo
-                  snel mogelijk contact met u op om uw wensen te bespreken en een
-                  offerte op maat te maken.
-                </p>
-              </div>
-
-              <div className="bg-white p-8 rounded-xl shadow-lg border border-gray-100 hover:shadow-xl transition-shadow duration-300">
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">
-                  Wat zijn de kosten van jullie diensten?
-                </h3>
-                <p className="text-gray-600 leading-relaxed">
-                  De kosten van onze diensten zijn afhankelijk van verschillende
-                  factoren, zoals de grootte van de ruimte, de frequentie van de
-                  schoonmaak en de specifieke werkzaamheden. We maken graag een
-                  offerte op maat voor u.
-                </p>
-              </div>
-
-              <div className="bg-white p-8 rounded-xl shadow-lg border border-gray-100 hover:shadow-xl transition-shadow duration-300">
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">
-                  Werken jullie met vaste schoonmakers?
-                </h3>
-                <p className="text-gray-600 leading-relaxed">
-                  Ja, we werken zo veel mogelijk met vaste schoonmakers. Dit
-                  zorgt voor continuïteit en kwaliteit in onze dienstverlening.
-                  Onze medewerkers kennen uw specifieke wensen en
-                  aandachtspunten.
-                </p>
-              </div>
-
-              <div className="bg-white p-8 rounded-xl shadow-lg border border-gray-100 hover:shadow-xl transition-shadow duration-300">
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">
-                  Welke schoonmaakmiddelen gebruiken jullie?
-                </h3>
-                <p className="text-gray-600 leading-relaxed">
-                  We gebruiken professionele schoonmaakmiddelen die effectief en
-                  tegelijkertijd milieuvriendelijk zijn. Op verzoek kunnen we ook
-                  werken met specifieke producten die u prefereert.
-                </p>
-              </div>
+          <div className="max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {faqs.map((faq, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  className="bg-gray-50 rounded-2xl p-8"
+                >
+                  <h3 className="text-lg font-bold text-gray-900 mb-4">{faq.question}</h3>
+                  <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
+                </motion.div>
+              ))}
             </div>
           </div>
         </div>
       </section>
-    </>
+
+      {/* Contact Form Section */}
+      <section className="bg-gray-50 py-20 lg:py-24">
+        <div className="container px-4 sm:px-6">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 max-w-6xl mx-auto">
+            
+            {/* Left Column - Form */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+            >
+              <div className="bg-white rounded-2xl p-8 lg:p-12 shadow-xl">
+                <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-6">
+                  Vraag een offerte aan
+                </h2>
+                
+                <form className="space-y-6" name="contact" method="POST" data-netlify="true">
+                  <input type="hidden" name="form-name" value="contact" />
+                  
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div>
+                      <label htmlFor="name" className="block text-sm font-medium text-gray-900 mb-2">
+                        Naam *
+                      </label>
+                      <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        required
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent text-gray-900 bg-white"
+                        placeholder="Uw volledige naam"
+                      />
+                    </div>
+                    
+                    <div>
+                      <label htmlFor="phone" className="block text-sm font-medium text-gray-900 mb-2">
+                        Telefoon
+                      </label>
+                      <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent text-gray-900 bg-white"
+                        placeholder="Uw telefoonnummer"
+                      />
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-900 mb-2">
+                      Email *
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      required
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent text-gray-900 bg-white"
+                      placeholder="uw.email@voorbeeld.nl"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="service" className="block text-sm font-medium text-gray-900 mb-2">
+                      Type dienst
+                    </label>
+                    <select
+                      id="service"
+                      name="service"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent text-gray-900 bg-white"
+                    >
+                      <option value="">Selecteer een dienst</option>
+                      <option value="kantoorschoonmaak">Kantoorschoonmaak</option>
+                      <option value="glasbewassing">Glasbewassing</option>
+                      <option value="hygiene">Hygiëne & Desinfectie</option>
+                      <option value="vloeronderhoud">Vloeronderhoud</option>
+                      <option value="nieuwbouw">Oplevering nieuwbouw</option>
+                      <option value="huishoudelijk">Huishoudelijke hulp</option>
+                      <option value="anders">Anders</option>
+                    </select>
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="message" className="block text-sm font-medium text-gray-900 mb-2">
+                      Bericht *
+                    </label>
+                    <textarea
+                      id="message"
+                      name="message"
+                      rows={5}
+                      required
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent text-gray-900 bg-white resize-none"
+                      placeholder="Vertel ons over uw schoonmaakwensen, frequentie, m² oppervlakte, etc."
+                    ></textarea>
+                  </div>
+                  
+                  <button
+                    type="submit"
+                    className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white py-4 px-6 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                  >
+                    Verstuur aanvraag
+                  </button>
+                  
+                  <p className="text-sm text-gray-500 text-center">
+                    Wij reageren binnen 24 uur op uw aanvraag
+                  </p>
+                </form>
+              </div>
+            </motion.div>
+
+            {/* Right Column - Info */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="space-y-8"
+            >
+              {/* Office Hours */}
+              <div className="bg-blue-50 rounded-2xl p-8">
+                <h3 className="text-xl font-bold text-gray-900 mb-6">Openingstijden</h3>
+                <div className="space-y-3">
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Maandag - Vrijdag</span>
+                    <span className="font-medium text-gray-900">8:00 - 18:00</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Zaterdag</span>
+                    <span className="font-medium text-gray-900">9:00 - 16:00</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Zondag</span>
+                    <span className="font-medium text-gray-900">Op afspraak</span>
+                  </div>
+                </div>
+                
+                <div className="mt-6 pt-6 border-t border-blue-200">
+                  <p className="text-sm text-gray-600">
+                    <strong>Spoedgevallen:</strong> Voor spoedklussen zijn wij 24/7 bereikbaar 
+                    via telefonisch contact.
+                  </p>
+                </div>
+              </div>
+
+              {/* Location */}
+              <div className="bg-green-50 rounded-2xl p-8">
+                <h3 className="text-xl font-bold text-gray-900 mb-4">Locatie</h3>
+                <div className="space-y-2 mb-6">
+                  <p className="text-gray-900 font-medium">{COMPANY_INFO.contact.address.street}</p>
+                  <p className="text-gray-600">{COMPANY_INFO.contact.address.postalCode} {COMPANY_INFO.contact.address.city}</p>
+                </div>
+                
+                <a 
+                  href={`https://maps.google.com/?q=${encodeURIComponent(COMPANY_INFO.contact.address.full)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium transition-colors"
+                >
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                  </svg>
+                  Bekijk op Google Maps
+                </a>
+              </div>
+
+              {/* Guarantee */}
+              <div className="bg-orange-50 rounded-2xl p-8">
+                <h3 className="text-xl font-bold text-gray-900 mb-4">Onze garantie</h3>
+                <div className="space-y-3">
+                  <div className="flex items-start gap-3">
+                    <div className="w-5 h-5 bg-orange-600 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <span className="text-gray-600">100% tevredenheidsgarantie</span>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="w-5 h-5 bg-orange-600 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <span className="text-gray-600">Verzekerd en geborgd</span>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="w-5 h-5 bg-orange-600 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <span className="text-gray-600">Gratis proefschoonmaak</span>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+    </main>
   );
-} 
+}

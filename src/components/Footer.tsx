@@ -3,28 +3,28 @@ import { COMPANY_INFO, NAVIGATION } from "@/lib/constants";
 
 const Footer = () => {
   return (
-    <footer className="bg-white border-t border-gray-100 py-20 relative overflow-hidden">
+    <footer className="bg-white border-t border-gray-100 py-12 sm:py-16 lg:py-20 relative overflow-hidden">
       {/* Decorative elements */}
-      <div className="absolute top-10 right-10 w-32 h-32 bg-[color:var(--primary)]/5 rounded-full blur-2xl"></div>
-      <div className="absolute bottom-10 left-10 w-48 h-48 bg-[color:var(--secondary)]/5 rounded-full blur-3xl"></div>
+      <div className="absolute top-5 sm:top-10 right-5 sm:right-10 w-16 sm:w-32 h-16 sm:h-32 bg-[color:var(--primary)]/5 rounded-full blur-2xl"></div>
+      <div className="absolute bottom-5 sm:bottom-10 left-5 sm:left-10 w-24 sm:w-48 h-24 sm:h-48 bg-[color:var(--secondary)]/5 rounded-full blur-3xl"></div>
       
       <div className="container relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12">
           {/* Company Info */}
           <div className="lg:col-span-2">
-            <Link href="/" className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 bg-gradient-to-br from-[color:var(--primary)] to-[color:var(--secondary)] rounded-xl flex items-center justify-center shadow-lg">
-                <span className="text-white font-bold text-xl">BWS</span>
+            <Link href="/" className="flex items-center gap-3 mb-4 sm:mb-6">
+              <div className="w-10 sm:w-12 h-10 sm:h-12 bg-gradient-to-br from-[color:var(--primary)] to-[color:var(--secondary)] rounded-xl flex items-center justify-center shadow-lg">
+                <span className="text-white font-bold text-lg sm:text-xl">BWS</span>
               </div>
-              <span className="text-2xl font-bold text-gray-900">{COMPANY_INFO.name}</span>
+              <span className="text-xl sm:text-2xl font-bold text-gray-900">{COMPANY_INFO.name}</span>
             </Link>
-            <p className="text-gray-600 text-lg leading-relaxed mb-8 max-w-md">
+            <p className="text-gray-600 text-base sm:text-lg leading-relaxed mb-6 sm:mb-8 max-w-md">
               {COMPANY_INFO.description}. 
               Duurzaam, betrouwbaar en innovatief voor een schone toekomst.
             </p>
             
             {/* Certifications */}
-            <div className="flex flex-wrap gap-4 mb-6">
+            <div className="flex flex-wrap gap-3 sm:gap-4 mb-4 sm:mb-6">
               <div className="flex items-center gap-2 bg-gray-50 hover:bg-gray-100 transition-colors px-4 py-2 rounded-full border border-gray-200">
                 <svg className="w-4 h-4 text-[color:var(--primary)]" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
@@ -130,8 +130,8 @@ const Footer = () => {
         </div>
 
         {/* Bottom section */}
-        <div className="mt-16 pt-8 border-t border-gray-200">
-          <div className="flex flex-col lg:flex-row justify-between items-center gap-8">
+        <div className="mt-12 sm:mt-16 pt-6 sm:pt-8 border-t border-gray-200">
+          <div className="flex flex-col lg:flex-row justify-between items-center gap-6 sm:gap-8">
             {/* Copyright */}
             <div className="text-center lg:text-left">
               <p className="text-gray-600 text-sm mb-2">
@@ -143,7 +143,7 @@ const Footer = () => {
             </div>
 
             {/* Social & Legal */}
-            <div className="flex flex-col sm:flex-row items-center gap-6">
+            <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
               {/* Social Media */}
               <div className="flex gap-4">
                 <a
@@ -172,7 +172,7 @@ const Footer = () => {
               </div>
 
               {/* Legal Links */}
-              <div className="flex gap-6 text-sm">
+              <div className="flex flex-wrap justify-center sm:justify-start gap-4 sm:gap-6 text-sm">
                 {NAVIGATION.footer.legal.map((link) => (
                   <Link 
                     key={link.name}

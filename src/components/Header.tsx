@@ -72,6 +72,7 @@ const Header = () => {
   ];
 
   return (
+    <>
     <motion.header 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out border-b backdrop-blur-md ${scrolled ? 'bg-white/95 shadow-xl border-[color:var(--primary)]/10' : 'bg-white/80 shadow-none border-white/20'}`}
       style={{ opacity: prefersReducedMotion ? 1 : headerOpacity }}
@@ -146,7 +147,7 @@ const Header = () => {
 
           {/* Enhanced Mobile Menu Button */}
           <motion.button
-            className="lg:hidden p-3 -mr-2 z-50 relative focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--primary)] focus-visible:ring-offset-2 rounded-xl transition-all duration-300 hover:bg-[color:var(--primary)]/10 active:scale-95"
+            className="lg:hidden p-3 -mr-2 z-[10000] relative focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--primary)] focus-visible:ring-offset-2 rounded-xl transition-all duration-300 hover:bg-[color:var(--primary)]/10 active:scale-95"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label={isMenuOpen ? "Sluit menu" : "Open menu"}
             aria-expanded={isMenuOpen}
@@ -171,87 +172,88 @@ const Header = () => {
           </motion.button>
         </div>
       </div>
+    </motion.header>
 
-      {/* Enhanced Mobile Menu */}
-      <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div 
-            id="mobile-menu"
-            className="fixed inset-0 z-40 bg-gradient-to-br from-[color:var(--primary)]/95 via-[color:var(--primary)]/90 to-[color:var(--secondary)]/95 backdrop-blur-lg flex flex-col"
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
+    {/* Enhanced Mobile Menu - Outside header for better layering */}
+    <AnimatePresence>
+      {isMenuOpen && (
+        <motion.div 
+          id="mobile-menu"
+          className="fixed inset-0 z-[9999] bg-[color:var(--primary)] flex flex-col"
+          initial={{ opacity: 0, y: "-100%" }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: "-100%" }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+        >
+          {/* Close button */}
+          <motion.button
+            className="absolute top-4 right-4 text-white/90 p-3 rounded-full hover:bg-white/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 z-[10001]"
+            onClick={() => setIsMenuOpen(false)}
+            aria-label="Sluit menu"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
           >
-            {/* Close button */}
-            <motion.button
-              className="absolute top-6 right-6 text-white/90 p-2 rounded-full hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2"
-              onClick={() => setIsMenuOpen(false)}
-              aria-label="Sluit menu"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </motion.button>
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </motion.button>
 
-            {/* Menu content */}
-            <div className="flex-1 flex flex-col items-center justify-center px-6">
-              <nav className="flex flex-col gap-6 items-center">
-                {navLinks.map((link, index) => (
-                  <motion.div
-                    key={link.name}
-                    initial={{ opacity: 0, y: 50 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1 + 0.2, duration: 0.5 }}
-                  >
-                    <Link
-                      href={link.path}
-                      className="text-3xl font-bold text-white hover:text-[color:var(--secondary)] transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 rounded-lg px-4 py-2"
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      {link.name}
-                    </Link>
-                  </motion.div>
-                ))}
-                
+          {/* Menu content */}
+          <div className="flex-1 flex flex-col items-center justify-center px-6 pt-16">
+            <nav className="flex flex-col gap-6 items-center">
+              {navLinks.map((link, index) => (
                 <motion.div
+                  key={link.name}
                   initial={{ opacity: 0, y: 50 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.6, duration: 0.5 }}
-                  className="mt-8"
+                  transition={{ delay: index * 0.1 + 0.2, duration: 0.5 }}
                 >
                   <Link
-                    href="/contact"
-                    className="inline-flex items-center justify-center px-10 py-4 text-xl font-bold text-[color:var(--primary)] bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 transform hover:scale-105"
+                    href={link.path}
+                    className="text-3xl font-bold text-white hover:text-[color:var(--secondary)] transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 rounded-lg px-4 py-2"
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    <svg className="mr-3 w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                    Gratis Offerte
+                    {link.name}
                   </Link>
                 </motion.div>
-              </nav>
-
-              {/* Contact info in mobile menu */}
+              ))}
+              
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.8, duration: 0.5 }}
-                className="mt-12 text-center text-white/80"
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6, duration: 0.5 }}
+                className="mt-8"
               >
-                <p className="text-sm">Of bel direct:</p>
-                <a href="tel:+31638935230" className="text-lg font-semibold text-white hover:text-[color:var(--secondary)] transition-colors">
-                  06 38935230
-                </a>
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center justify-center px-10 py-4 text-xl font-bold text-[color:var(--primary)] bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 transform hover:scale-105"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <svg className="mr-3 w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                  Gratis Offerte
+                </Link>
               </motion.div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.header>
+            </nav>
+
+            {/* Contact info in mobile menu */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.8, duration: 0.5 }}
+              className="mt-12 text-center text-white/80"
+            >
+              <p className="text-sm">Of bel direct:</p>
+              <a href="tel:+31638935230" className="text-lg font-semibold text-white hover:text-[color:var(--secondary)] transition-colors">
+                06 38935230
+              </a>
+            </motion.div>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+    </>
   );
 };
 

@@ -134,14 +134,14 @@ const ContactForm = () => {
   };
 
   return (
-    <div className="bg-white p-6 lg:p-8 rounded-xl shadow-lg border border-gray-100">
+    <div className="bg-white p-4 sm:p-6 lg:p-8 rounded-xl shadow-lg border border-gray-100">
       <LiveRegion message={liveMessage} />
       
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
           Vraag een vrijblijvende offerte aan
         </h2>
-        <p className="text-gray-600">
+        <p className="text-gray-600 text-sm sm:text-base">
           Vul onderstaand formulier in en wij nemen binnen 24 uur contact met u op.
         </p>
       </div>
@@ -185,7 +185,7 @@ const ContactForm = () => {
             Don't fill this out if you're human: <input name="bot-field" />
           </label>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
           <div>
             <label htmlFor="naam" className="block text-sm font-medium text-gray-700 mb-2">
               Naam <span className="text-red-500" aria-label="verplicht">*</span>
@@ -198,7 +198,7 @@ const ContactForm = () => {
               onChange={(e) => handleInputChange('naam', e.target.value)}
               required
               placeholder="Uw volledige naam"
-              className={`w-full px-3 py-2 border rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)] focus:border-transparent text-gray-900 bg-white placeholder-gray-500 ${
+              className={`w-full px-3 py-3 border rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)] focus:border-transparent text-gray-900 bg-white placeholder-gray-500 min-h-[44px] ${
                 errors.naam ? 'border-red-500' : 'border-gray-300 hover:border-gray-400'
               }`}
               aria-invalid={!!errors.naam}
@@ -235,7 +235,7 @@ const ContactForm = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
           <div>
             <label htmlFor="telefoon" className="block text-sm font-medium text-gray-700 mb-2">
               Telefoonnummer
@@ -353,7 +353,7 @@ const ContactForm = () => {
         <motion.button
           type="submit"
           disabled={isSubmitting}
-          className={`w-full btn-primary ${isSubmitting ? 'opacity-75 cursor-not-allowed' : ''}`}
+          className={`w-full btn-primary min-h-[48px] text-base font-semibold ${isSubmitting ? 'opacity-75 cursor-not-allowed' : ''}`}
           whileHover={!isSubmitting ? { scale: 1.02 } : {}}
           whileTap={!isSubmitting ? { scale: 0.98 } : {}}
         >
@@ -375,7 +375,7 @@ const ContactForm = () => {
           )}
         </motion.button>
 
-        <p className="text-xs text-gray-500 text-center">
+        <p className="text-xs sm:text-sm text-gray-500 text-center">
           Door dit formulier te verzenden krijgt u binnen 24 uur een persoonlijke offerte op maat.
         </p>
       </form>

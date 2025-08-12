@@ -16,17 +16,17 @@ export default function OverOnsPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative pt-[120px] md:pt-[140px] pb-20 bg-gradient-to-br from-[color:var(--primary)] to-[color:var(--accent)] text-white overflow-hidden">
+      <section className="relative pt-[100px] sm:pt-[120px] md:pt-[140px] pb-16 sm:pb-20 bg-gradient-to-br from-[color:var(--primary)] to-[color:var(--accent)] text-white overflow-hidden">
         <div className="absolute inset-0 bg-black/10"></div>
         <div className="container relative z-10">
           <div className="max-w-4xl mx-auto text-center">
             <span className="inline-block px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-white/90 text-sm font-medium mb-6">
               Over BWS Schoonmaak
             </span>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6">
               Betrouwbare Partner in Schoonmaak
             </h1>
-            <p className="text-xl md:text-2xl text-white/90 leading-relaxed mb-8">
+            <p className="text-lg sm:text-xl md:text-2xl text-white/90 leading-relaxed mb-6 sm:mb-8">
               Met meer dan 15 jaar ervaring zorgen wij voor representatieve en hygiënische omgevingen. 
               Van kantoorpanden tot zorginstellingen - kwaliteit en betrouwbaarheid staan centraal.
             </p>
@@ -42,8 +42,8 @@ export default function OverOnsPage() {
         </div>
         
         {/* Decorative elements */}
-        <div className="absolute top-20 right-10 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
-        <div className="absolute bottom-20 left-10 w-48 h-48 bg-white/5 rounded-full blur-3xl"></div>
+        <div className="absolute top-10 sm:top-20 right-4 sm:right-10 w-20 sm:w-32 h-20 sm:h-32 bg-white/10 rounded-full blur-2xl"></div>
+        <div className="absolute bottom-10 sm:bottom-20 left-4 sm:left-10 w-32 sm:w-48 h-32 sm:h-48 bg-white/5 rounded-full blur-3xl"></div>
       </section>
 
       <section id="onze-aanpak" className="py-20 bg-[color:var(--light-bg)] scroll-mt-20">

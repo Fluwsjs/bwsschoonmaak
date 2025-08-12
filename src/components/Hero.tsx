@@ -4,15 +4,15 @@ import { motion } from "framer-motion";
 
 const Hero = () => {
   return (
-    <section className="relative pt-[120px] md:pt-[140px] pb-20 md:pb-24 min-h-[700px] overflow-hidden bg-white">
+    <section className="relative pt-[100px] sm:pt-[120px] md:pt-[140px] pb-16 sm:pb-20 md:pb-24 min-h-[600px] sm:min-h-[700px] overflow-hidden bg-white">
       {/* Subtle background elements */}
       <div className="absolute inset-0 z-0 pointer-events-none">
-        <div className="absolute top-20 right-10 w-32 h-32 bg-[color:var(--primary)] opacity-5 rounded-full blur-2xl"></div>
-        <div className="absolute bottom-20 left-10 w-48 h-48 bg-[color:var(--secondary)] opacity-5 rounded-full blur-3xl"></div>
+        <div className="absolute top-10 sm:top-20 right-4 sm:right-10 w-20 sm:w-32 h-20 sm:h-32 bg-[color:var(--primary)] opacity-5 rounded-full blur-2xl"></div>
+        <div className="absolute bottom-10 sm:bottom-20 left-4 sm:left-10 w-32 sm:w-48 h-32 sm:h-48 bg-[color:var(--secondary)] opacity-5 rounded-full blur-3xl"></div>
       </div>
       
-      <div className="container relative z-10 px-6">
-        <div className="grid lg:grid-cols-2 gap-12 items-center max-w-7xl mx-auto">
+      <div className="container relative z-10 px-4 sm:px-6">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center max-w-7xl mx-auto">
 
           {/* Left Column - Content */}
           <motion.div
@@ -25,7 +25,7 @@ const Hero = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight"
             >
               Uw <span className="text-[color:var(--primary)]">schoonmaak</span> in vertrouwde handen
             </motion.h1>
@@ -34,7 +34,7 @@ const Hero = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="text-gray-600 text-lg md:text-xl mb-8 leading-relaxed"
+              className="text-gray-600 text-base sm:text-lg md:text-xl mb-6 sm:mb-8 leading-relaxed"
             >
               Van kantoorpand tot ziekenhuis - wij hebben er ervaring mee. Dagelijkse schoonmaak, glasbewassing en specialistisch onderhoud voor alle soorten gebouwen en moeilijk bereikbare plaatsen.
             </motion.p>
@@ -44,23 +44,23 @@ const Hero = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
-              className="bg-white p-6 rounded-xl shadow-lg border border-gray-100 mb-12"
+              className="bg-white p-4 sm:p-6 rounded-xl shadow-lg border border-gray-100 mb-8 sm:mb-12"
             >
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Krijg direct een indicatieve offerte</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">Krijg direct een indicatieve offerte</h3>
+              <div className="space-y-3 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-4 mb-4">
                 <input
                   type="text"
                   placeholder="Uw naam"
-                  className="px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)] focus:border-transparent text-base text-gray-900 bg-white placeholder-gray-500"
+                  className="w-full px-3 sm:px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)] focus:border-transparent text-base text-gray-900 bg-white placeholder-gray-500 min-h-[44px]"
                 />
                 <input
                   type="tel"
                   placeholder="Telefoonnummer"
-                  className="px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)] focus:border-transparent text-base text-gray-900 bg-white placeholder-gray-500"
+                  className="w-full px-3 sm:px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)] focus:border-transparent text-base text-gray-900 bg-white placeholder-gray-500 min-h-[44px]"
                 />
               </div>
               <div className="mb-4">
-                <select className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)] focus:border-transparent text-base text-gray-900 bg-white">
+                <select className="w-full px-3 sm:px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)] focus:border-transparent text-base text-gray-900 bg-white min-h-[44px]">
                   <option value="" className="text-gray-500">Selecteer gewenste dienst</option>
                   <option value="kantoorschoonmaak" className="text-gray-900">Kantoorschoonmaak</option>
                   <option value="glasbewassing" className="text-gray-900">Glasbewassing</option>
@@ -71,13 +71,13 @@ const Hero = () => {
                   <option value="anders" className="text-gray-900">Anders</option>
                 </select>
               </div>
-              <button className="w-full btn-primary py-3 flex items-center justify-center gap-2">
+              <button className="w-full btn-primary py-3 px-4 flex items-center justify-center gap-2 text-base font-semibold min-h-[48px]">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
                 </svg>
                 Vraag gratis offerte aan
               </button>
-              <p className="text-xs text-gray-500 text-center mt-2">
+              <p className="text-xs sm:text-sm text-gray-500 text-center mt-2">
                 Binnen 24 uur een persoonlijke offerte op maat
               </p>
             </motion.div>
@@ -87,15 +87,15 @@ const Hero = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.8 }}
-              className="grid grid-cols-2 gap-8 mb-8"
+              className="grid grid-cols-2 gap-4 sm:gap-8 mb-6 sm:mb-8"
             >
               <div>
-                <div className="text-3xl font-bold text-gray-900 mb-1">15+</div>
-                <div className="text-gray-600 text-sm">Jaar ervaring</div>
+                <div className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">15+</div>
+                <div className="text-gray-600 text-xs sm:text-sm">Jaar ervaring</div>
               </div>
               <div>
-                <div className="text-3xl font-bold text-gray-900 mb-1">~500+</div>
-                <div className="text-gray-600 text-sm">Tevreden klanten</div>
+                <div className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">~500+</div>
+                <div className="text-gray-600 text-xs sm:text-sm">Tevreden klanten</div>
               </div>
             </motion.div>
 
@@ -123,14 +123,14 @@ const Hero = () => {
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="relative lg:pl-8"
+            className="relative lg:pl-8 mt-8 lg:mt-0"
           >
             {/* Schoonmaak Dashboard Mockup */}
-            <div className="relative max-w-lg mx-auto">
+            <div className="relative max-w-sm sm:max-w-lg mx-auto">
               {/* Main Dashboard */}
-              <div className="relative bg-white rounded-2xl shadow-2xl p-8 transform rotate-3 hover:rotate-1 transition-transform duration-500">
-                <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-lg font-semibold text-gray-900">SchoonmaakPlan</h3>
+              <div className="relative bg-white rounded-2xl shadow-2xl p-4 sm:p-6 md:p-8 transform rotate-3 hover:rotate-1 transition-transform duration-500">
+                <div className="flex items-center justify-between mb-4 sm:mb-6">
+                  <h3 className="text-base sm:text-lg font-semibold text-gray-900">SchoonmaakPlan</h3>
                   <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
                 </div>
                 

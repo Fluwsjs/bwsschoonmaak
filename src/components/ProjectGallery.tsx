@@ -3,7 +3,7 @@
 import Image from "next/image";
 
 interface ProjectGalleryProps {
-  images: string[];
+  images: readonly string[] | string[];
   title?: string;
 }
 

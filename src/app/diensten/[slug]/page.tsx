@@ -90,7 +90,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
 
         {/* Project Gallery */}
         <ProjectGallery 
-          images={service.galleryImages}
+          images={[...service.galleryImages]}
           title="Ons Werk"
         />
 

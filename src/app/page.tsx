@@ -1,10 +1,9 @@
 import { Metadata } from "next";
 import Hero from "@/components/Hero";
-import MainServices from "@/components/MainServices";
 import TrustIndicators from "@/components/TrustIndicators";
 import TransformationSection from "@/components/TransformationSection";
 import ModernTestimonials from "@/components/ModernTestimonials";
-import InspiratieSectie from "@/components/InspiratieSectie";
+import PageWrapper from "@/components/PageWrapper";
 
 export const metadata: Metadata = {
   title: "BWS Schoonmaak - Professionele Schoonmaakdiensten",
@@ -18,13 +17,13 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <main>
-      <Hero />
-      <MainServices />
-      <TrustIndicators />
-      <TransformationSection />
-      <ModernTestimonials />
-      <InspiratieSectie />
-    </main>
+    <PageWrapper>
+      <main>
+        <Hero />
+        <TrustIndicators />
+        <TransformationSection />
+        <ModernTestimonials />
+      </main>
+    </PageWrapper>
   );
 }

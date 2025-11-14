@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ReactNode } from "react";
+import { ArrowRight } from "lucide-react";
 
 interface DienstCardProps {
   title: string;
@@ -25,28 +26,25 @@ const DienstCard = ({
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay }}
       viewport={{ once: true }}
-      className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow border border-gray-100"
+      className="bg-white p-6 lg:p-8 rounded-xl transition-all duration-300 border border-gray-100 card-float"
+      style={{
+        borderRadius: '12px',
+        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)'
+      }}
+      whileHover={{ 
+        y: -8,
+        transition: { duration: 0.3 }
+      }}
     >
       <div className="mb-4 text-[color:var(--primary)] text-4xl">{icon}</div>
-      <h3 className="text-xl font-semibold mb-3 text-gray-900">{title}</h3>
+      <h3 className="text-xl font-semibold mb-3" style={{ color: 'var(--accent)' }}>{title}</h3>
       <p className="text-gray-700 mb-4 leading-relaxed">{description}</p>
       <Link
         href={href}
-        className="text-[color:var(--primary)] hover:text-[color:var(--accent)] font-medium inline-flex items-center transition-colors"
+        className="text-[color:var(--primary)] hover:text-[color:var(--secondary)] font-medium inline-flex items-center gap-1 transition-colors"
       >
         Meer informatie
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-4 w-4 ml-1"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-        >
-          <path
-            fillRule="evenodd"
-            d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
-            clipRule="evenodd"
-          />
-        </svg>
+        <ArrowRight className="h-4 w-4 lucide" strokeWidth={2} style={{ stroke: 'currentColor' }} />
       </Link>
     </motion.div>
   );

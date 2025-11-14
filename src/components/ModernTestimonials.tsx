@@ -1,8 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";
+import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 
 const testimonials = [
   {
@@ -40,129 +40,127 @@ export default function ModernTestimonials() {
   };
 
   return (
-    <section className="section bg-white py-20 lg:py-24">
-      <div className="container px-4 sm:px-6">
+    <section className="section bg-white py-24 lg:py-32">
+      <div className="container px-6 sm:px-8 lg:px-10">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <div className="text-sm font-medium text-blue-600 mb-4 uppercase tracking-wide">
-            TEVREDENHEID STAAT CENTRAAL.<br/>
-            LEES WAT ONZE KLANTEN ZEGGEN.
+        <div className="text-center mb-16">
+          <div className="text-sm font-medium mb-4 uppercase tracking-wide"
+               style={{ color: 'var(--primary)' }}>
+            TEVREDEN KLANTEN
           </div>
-          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">
-            Klanten aan het woord
+          <h2 className="text-3xl lg:text-4xl font-bold" style={{ color: 'var(--accent)' }}>
+            Wat onze klanten zeggen
           </h2>
-        </motion.div>
+        </div>
 
         {/* Testimonial Content */}
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center max-w-6xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center max-w-6xl mx-auto">
           
           {/* Left Column - Image */}
-          <motion.div
-            key={`image-${currentTestimonial}`}
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            className="relative"
-          >
+          <div className="relative order-2 lg:order-1">
             <div className="relative w-full max-w-md mx-auto lg:mx-0">
               {/* Main Image */}
-              <div className="relative w-full h-[500px] rounded-2xl overflow-hidden shadow-2xl">
+              <div className="relative w-full h-[300px] sm:h-[400px] md:h-[450px] lg:h-[500px] overflow-hidden image-overlay image-zoom"
+                   style={{
+                     borderRadius: '12px',
+                     boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)'
+                   }}>
                 <Image
                   src={testimonials[currentTestimonial].image}
                   alt={testimonials[currentTestimonial].name}
                   fill
                   className="object-cover"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 50vw"
                 />
               </div>
               
               {/* Company Badge */}
               <div className="absolute bottom-4 left-4 right-4">
-                <div className="bg-white/90 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-white/20">
+                <div className="bg-white p-3 sm:p-4 border border-gray-200"
+                     style={{
+                       borderRadius: '12px',
+                       boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)'
+                     }}>
                   <div className="text-center">
-                    <div className="font-semibold text-gray-900 mb-1">
+                    <div className="font-semibold text-sm sm:text-base text-gray-900 mb-1">
                       {testimonials[currentTestimonial].company}
                     </div>
                     <a 
                       href="#contact"
-                      className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium text-sm transition-colors"
+                      className="inline-flex items-center gap-2 font-medium text-xs sm:text-sm transition-colors"
+                      style={{ color: 'var(--primary)' }}
                     >
                       Ook tevreden klant worden?
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                      </svg>
+                      <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 lucide" strokeWidth={2} style={{ stroke: 'currentColor' }} />
                     </a>
                   </div>
                 </div>
               </div>
             </div>
-          </motion.div>
+          </div>
 
           {/* Right Column - Quote */}
-          <motion.div
-            key={`quote-${currentTestimonial}`}
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="lg:pl-8"
-          >
+          <div className="lg:pl-8 order-1 lg:order-2">
             {/* Quote */}
-            <blockquote className="text-xl lg:text-2xl text-gray-700 leading-relaxed mb-8 italic">
+            <blockquote className="text-lg sm:text-xl lg:text-2xl text-gray-700 leading-relaxed mb-6 sm:mb-8 italic">
               "{testimonials[currentTestimonial].quote}"
             </blockquote>
 
             {/* Author */}
-            <div className="mb-8">
-              <div className="font-bold text-orange-600 text-lg mb-1">
+            <div className="mb-6 sm:mb-8">
+              <div className="font-bold text-base sm:text-lg mb-1"
+                   style={{ color: 'var(--primary)' }}>
                 {testimonials[currentTestimonial].name}
               </div>
-              <div className="text-gray-600">
+              <div className="text-sm sm:text-base text-gray-600">
                 {testimonials[currentTestimonial].role}
               </div>
             </div>
 
             {/* Navigation */}
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3 sm:gap-4">
               <button
                 onClick={prevTestimonial}
-                className="w-12 h-12 bg-blue-100 hover:bg-blue-200 rounded-full flex items-center justify-center transition-colors"
+                className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center transition-all duration-300 border border-gray-300 hover:border-[color:var(--primary)] hover:bg-gray-50 active:scale-95"
+                style={{ 
+                  color: 'var(--primary)',
+                  borderRadius: '12px',
+                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)'
+                }}
                 aria-label="Vorige testimonial"
               >
-                <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
+                <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 lucide" strokeWidth={2} style={{ stroke: 'currentColor' }} />
               </button>
               
               <button
                 onClick={nextTestimonial}
-                className="w-12 h-12 bg-blue-100 hover:bg-blue-200 rounded-full flex items-center justify-center transition-colors"
+                className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center transition-all duration-300 border border-gray-300 hover:border-[color:var(--primary)] hover:bg-gray-50 active:scale-95"
+                style={{ 
+                  color: 'var(--primary)',
+                  borderRadius: '12px',
+                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)'
+                }}
                 aria-label="Volgende testimonial"
               >
-                <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
+                <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 lucide" strokeWidth={2} style={{ stroke: 'currentColor' }} />
               </button>
 
               {/* Dots */}
-              <div className="flex gap-2 ml-4">
+              <div className="flex gap-2 ml-2 sm:ml-4">
                 {testimonials.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => setCurrentTestimonial(index)}
                     className={`w-2 h-2 rounded-full transition-colors ${
-                      index === currentTestimonial ? 'bg-blue-600' : 'bg-gray-300'
+                      index === currentTestimonial ? '' : 'bg-gray-300'
                     }`}
+                    style={index === currentTestimonial ? { backgroundColor: 'var(--primary)' } : {}}
                     aria-label={`Ga naar testimonial ${index + 1}`}
                   />
                 ))}
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

@@ -1,7 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Image from "next/image";
+import { ArrowRight } from "lucide-react";
 
 const services = [
   {
@@ -36,19 +36,19 @@ const services = [
 const getColorClasses = (color: string) => {
   const colorMap = {
     blue: {
-      bg: "bg-blue-50",
-      icon: "bg-blue-100 text-blue-600",
-      button: "text-orange-600 hover:text-orange-700"
+      bg: "bg-[color:var(--primary)]/5",
+      icon: "text-white",
+      button: "text-[color:var(--primary)] hover:text-[color:var(--secondary)]"
     },
     green: {
       bg: "bg-green-50", 
       icon: "bg-green-100 text-green-600",
-      button: "text-orange-600 hover:text-orange-700"
+      button: "text-[color:var(--primary)] hover:text-[color:var(--secondary)]"
     },
     orange: {
       bg: "bg-orange-50",
       icon: "bg-orange-100 text-orange-600", 
-      button: "text-orange-600 hover:text-orange-700"
+      button: "text-[color:var(--primary)] hover:text-[color:var(--secondary)]"
     }
   };
   return colorMap[color as keyof typeof colorMap] || colorMap.blue;
@@ -56,23 +56,32 @@ const getColorClasses = (color: string) => {
 
 export default function MainServices() {
   return (
-    <section className="section bg-white py-20 lg:py-24">
-      <div className="container px-4 sm:px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
+    <section className="section bg-white py-24 lg:py-32">
+      <div className="container px-6 sm:px-8 lg:px-10">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10">
           {services.map((service, index) => {
             const colors = getColorClasses(service.color);
             
             return (
-              <motion.div
+              <div
                 key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.2 }}
-                className={`${colors.bg} rounded-2xl p-8 h-full flex flex-col`}
+                className={`${colors.bg} p-6 lg:p-8 h-full flex flex-col border border-gray-200 transition-all duration-300`}
+                style={{
+                  borderRadius: '12px',
+                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow = '0 8px 30px rgba(0, 0, 0, 0.08)';
+                  e.currentTarget.style.transform = 'translateY(-4px)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.05)';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                }}
               >
                 {/* Service Icon */}
-                <div className={`w-16 h-16 ${colors.icon} rounded-2xl flex items-center justify-center mb-6`}>
+                <div className={`w-14 h-14 rounded-lg flex items-center justify-center mb-4`}
+                     style={service.color === 'blue' ? { backgroundColor: 'var(--primary)' } : {}}>
                   {index === 0 && (
                     <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
                       <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"/>
@@ -92,27 +101,27 @@ export default function MainServices() {
                 </div>
 
                 {/* Title */}
-                <h3 className="text-xl lg:text-2xl font-bold text-gray-900 mb-4">
+                <h3 className="text-xl font-bold mb-3" style={{ color: 'var(--accent)' }}>
                   {service.title}
                 </h3>
 
                 {/* Description */}
-                <p className="text-gray-700 mb-6 leading-relaxed">
+                <p className="text-gray-700 mb-4 leading-relaxed">
                   {service.description}
                 </p>
 
                 {/* Details */}
-                <p className="text-gray-600 text-sm mb-8 leading-relaxed flex-grow">
+                <p className="text-gray-600 text-sm mb-6 leading-relaxed flex-grow">
                   {service.details}
                 </p>
 
                 {/* Features */}
-                <div className="mb-8">
+                <div className="mb-6">
                   <div className="flex flex-wrap gap-2">
                     {service.features.map((feature, idx) => (
                       <span 
                         key={idx}
-                        className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-white text-gray-700 border border-gray-200"
+                        className="inline-flex items-center px-2.5 py-1 rounded text-xs font-medium bg-white text-gray-700 border border-gray-200"
                       >
                         {feature}
                       </span>
@@ -127,12 +136,10 @@ export default function MainServices() {
                     className={`inline-flex items-center gap-2 ${colors.button} font-semibold transition-colors`}
                   >
                     {service.linkText}
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                    </svg>
+                    <ArrowRight className="w-4 h-4 lucide" strokeWidth={2} style={{ stroke: 'currentColor' }} />
                   </a>
                 </div>
-              </motion.div>
+              </div>
             );
           })}
         </div>

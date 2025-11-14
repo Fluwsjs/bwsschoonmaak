@@ -73,13 +73,6 @@ export default function NotFound() {
             </Link>
             <span className="text-white/40">•</span>
             <Link 
-              href="/over-ons" 
-              className="text-white/80 hover:text-white text-sm underline hover:no-underline transition-colors"
-            >
-              Over ons
-            </Link>
-            <span className="text-white/40">•</span>
-            <Link 
               href="/projecten" 
               className="text-white/80 hover:text-white text-sm underline hover:no-underline transition-colors"
             >

@@ -1,39 +1,30 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useReducedMotion } from "@/components/AccessibilityOptimized";
+import { ChevronDown, X, Menu } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const lastScrollY = useRef(0);
-  const ticking = useRef(false);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
-  const prefersReducedMotion = useReducedMotion();
-  
-  const { scrollY } = useScroll();
-  const headerOpacity = useTransform(scrollY, [0, 100], [1, 0.98]);
 
-  // Enhanced scroll detection
+  // Handle client-side mounting for portal
+  useEffect(() => {
+    setMounted(true);
+    return () => setMounted(false);
+  }, []);
+
+  // Simple scroll detection
   useEffect(() => {
     const handleScroll = () => {
-      if (!ticking.current) {
-        requestAnimationFrame(() => {
-          const currentScrollY = window.scrollY;
-          
-          // Header visibility is now controlled by opacity in headerOpacity
-          // Removed setIsVisible calls as the state was removed
-          
-          setScrolled(currentScrollY > 20);
-          lastScrollY.current = currentScrollY;
-          ticking.current = false;
-        });
-        
-        ticking.current = true;
-      }
+      setScrolled(window.scrollY > 20);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -55,7 +46,23 @@ const Header = () => {
   // Close menu on route change
   useEffect(() => {
     setIsMenuOpen(false);
+    setActiveDropdown(null);
   }, [pathname]);
+
+  // Close menu on Escape key
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isMenuOpen) {
+        setIsMenuOpen(false);
+        setActiveDropdown(null);
+      }
+    };
+
+    if (isMenuOpen) {
+      document.addEventListener('keydown', handleEscape);
+      return () => document.removeEventListener('keydown', handleEscape);
+    }
+  }, [isMenuOpen]);
 
   const isActive = (path: string) => {
     if (path === "/") {
@@ -66,193 +73,350 @@ const Header = () => {
 
   const navLinks = [
     { name: "Home", path: "/" },
-    { name: "Diensten", path: "/diensten" },
-    { name: "Over ons", path: "/over-ons" },
+    { 
+      name: "Diensten", 
+      path: "/diensten",
+      dropdown: [
+        { name: "Kantoor- en bedrijfsschoonmaak", path: "/diensten/kantoor-bedrijfsschoonmaak" },
+        { name: "Gevelreiniging & glasbewassing", path: "/diensten/gevelreiniging-glasbewassing" },
+        { name: "Sanitair- en hygiënereiniging", path: "/diensten/sanitair-hygienereiniging" },
+        { name: "Vloeronderhoud & coating", path: "/diensten/vloeronderhoud-coating" },
+        { name: "Oplevering na nieuwbouw", path: "/diensten/oplevering-nieuwbouw" },
+        { name: "Huishoudelijke hulp", path: "/diensten/huishoudelijke-hulp" },
+        { name: "Alle diensten", path: "/diensten" }
+      ]
+    },
+    { name: "Projecten", path: "/projecten" },
     { name: "Contact", path: "/contact" }
   ];
 
   return (
     <>
     <motion.header 
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out border-b backdrop-blur-md ${scrolled ? 'bg-white/95 shadow-xl border-[color:var(--primary)]/10' : 'bg-white/80 shadow-none border-white/20'}`}
-      style={{ opacity: prefersReducedMotion ? 1 : headerOpacity }}
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.3 }}
+      className={`fixed top-0 lg:top-[41px] left-0 right-0 z-50 border-b transition-all duration-300 ${
+        scrolled 
+          ? 'bg-white/95 backdrop-blur-md shadow-md border-gray-200/50' 
+          : 'bg-white/90 backdrop-blur-sm border-gray-100'
+      }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          {/* Logo */}
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-10">
+        <div className="flex justify-between items-center h-16 sm:h-16 lg:h-[72px]">
+          {/* Logo - Enhanced */}
           <Link 
             href="/" 
-            className="flex items-center group focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--primary)] focus-visible:ring-offset-2"
+            className="flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--primary)] focus-visible:ring-offset-2 rounded-md transition-transform duration-200 active:scale-95 lg:hover:scale-105"
             aria-label="BWS Schoonmaak - Homepage"
+            onClick={() => setIsMenuOpen(false)}
           >
-            <motion.div 
-              className="relative"
-              whileHover={prefersReducedMotion ? {} : { scale: 1.02 }}
-              whileTap={prefersReducedMotion ? {} : { scale: 0.98 }}
-              transition={{ duration: 0.2 }}
-            >
-              <span className={`font-bold text-[color:var(--primary)] transition-all duration-300 ${
-                scrolled ? 'text-xl' : 'text-2xl'
-              }`}>
-                BWS Schoonmaak
-              </span>
-            </motion.div>
+            <Image
+              src="/logobws.png"
+              alt="BWS Schoonmaak Logo"
+              width={150}
+              height={50}
+              className="h-8 w-auto sm:h-9 md:h-10 lg:h-11 xl:h-12 object-contain"
+              priority
+              unoptimized
+            />
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-8" role="navigation" aria-label="Hoofdnavigatie">
+          <nav className="hidden lg:flex items-center gap-1" role="navigation" aria-label="Hoofdnavigatie">
             {navLinks.map((link) => {
               const active = isActive(link.path);
+              const hasDropdown = link.dropdown && link.dropdown.length > 0;
+              
               return (
-                <Link
+                <div
                   key={link.name}
-                  href={link.path}
-                  className={`relative text-sm font-semibold transition-all duration-300 px-4 py-2 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--primary)] focus-visible:ring-offset-2
-                    ${active 
-                      ? "text-[color:var(--primary)] bg-[color:var(--primary)]/10 font-bold" 
-                      : "text-gray-700 hover:text-[color:var(--primary)] hover:bg-[color:var(--primary)]/5"}
-                  `}
-                  aria-current={active ? "page" : undefined}
+                  className="relative"
+                  onMouseEnter={() => hasDropdown && setActiveDropdown(link.name)}
+                  onMouseLeave={() => hasDropdown && setActiveDropdown(null)}
                 >
-                  <span className="relative z-10 px-1">
+                  <Link
+                    href={link.path}
+                    className={`relative flex items-center gap-1 px-4 py-2.5 text-sm font-semibold transition-all duration-200 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--primary)] focus-visible:ring-offset-2
+                      ${active 
+                        ? "text-[color:var(--primary)] bg-[color:var(--primary)]/10" 
+                        : "text-gray-700 hover:text-[color:var(--primary)] hover:bg-gray-50/80"}
+                    `}
+                    aria-current={active ? "page" : undefined}
+                  >
                     {link.name}
-                  </span>
-                  {active && (
-                    <motion.div 
-                      layoutId="activeIndicator"
-                      className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-[color:var(--primary)] rounded-full" 
-                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                    />
-                  )}
-                </Link>
+                    {hasDropdown && (
+                      <motion.div
+                        animate={{ rotate: activeDropdown === link.name ? 180 : 0 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <ChevronDown 
+                          className="w-4 h-4"
+                          strokeWidth={2.5}
+                          style={{ stroke: 'currentColor' }}
+                        />
+                      </motion.div>
+                    )}
+                  </Link>
+                  
+                  {/* Dropdown Menu - Enhanced with Animation */}
+                  <AnimatePresence>
+                    {hasDropdown && activeDropdown === link.name && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.2 }}
+                        className="absolute top-full left-0 mt-2 w-72 bg-white/95 backdrop-blur-md border border-gray-200/50 py-2 z-50 rounded-xl shadow-xl"
+                        style={{
+                          boxShadow: '0 10px 40px rgba(0, 0, 0, 0.1)'
+                        }}
+                      >
+                        {link.dropdown.map((item, index) => (
+                          <motion.div
+                            key={item.name}
+                            initial={{ opacity: 0, x: -10 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: index * 0.03 }}
+                          >
+                            <Link
+                              href={item.path}
+                              className="block px-4 py-2.5 text-sm text-gray-700 hover:text-[color:var(--primary)] hover:bg-[color:var(--primary)]/5 transition-all duration-150 rounded-lg mx-1"
+                              onClick={() => setActiveDropdown(null)}
+                              style={{ fontFamily: 'var(--font-inter), Inter, sans-serif' }}
+                            >
+                              {item.name}
+                            </Link>
+                          </motion.div>
+                        ))}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
               );
             })}
-            {/* CTA Button */}
-            <motion.div
-              whileHover={prefersReducedMotion ? {} : { scale: 1.04 }}
-              whileTap={prefersReducedMotion ? {} : { scale: 0.98 }}
-              transition={{ duration: 0.2 }}
-            >
+            
+            {/* CTA Button - Enhanced */}
+            <div className="ml-6 pl-6 border-l border-gray-200/50">
               <Link 
                 href="/contact" 
-                className="inline-flex items-center justify-center px-5 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-[color:var(--primary)] to-[color:var(--accent)] hover:from-[color:var(--accent)] hover:to-[color:var(--primary)] rounded-md transition-all duration-300 shadow-md hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--primary)] focus-visible:ring-offset-2"
+                className="group relative inline-flex items-center px-6 py-2.5 text-sm font-bold text-white transition-all duration-300 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--primary)] focus-visible:ring-offset-2 hover:opacity-90"
+                style={{ 
+                  backgroundColor: '#0165f8',
+                  color: 'white',
+                  boxShadow: '0 4px 20px rgba(1, 101, 248, 0.2)',
+                }}
               >
-                Gratis Offerte
-                <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                </svg>
+                Contact
               </Link>
-            </motion.div>
+            </div>
           </nav>
 
-          {/* Enhanced Mobile Menu Button */}
-          <motion.button
-            className="lg:hidden p-3 -mr-2 z-[10000] relative focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--primary)] focus-visible:ring-offset-2 rounded-xl transition-all duration-300 hover:bg-[color:var(--primary)]/10 active:scale-95"
+          {/* Mobile Menu Button */}
+          <button
+            className="lg:hidden p-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--primary)] focus-visible:ring-offset-2"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label={isMenuOpen ? "Sluit menu" : "Open menu"}
             aria-expanded={isMenuOpen}
             aria-controls="mobile-menu"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
           >
-            <div className="w-6 h-6 flex flex-col justify-center">
-              <motion.span 
-                className={`block h-0.5 w-6 bg-[color:var(--primary)] transition-all duration-300 ${isMenuOpen ? 'rotate-45 translate-y-1' : ''}`}
-                animate={isMenuOpen ? { rotate: 45, translateY: 4 } : { rotate: 0, translateY: 0 }}
-              />
-              <motion.span 
-                className={`block h-0.5 w-6 bg-[color:var(--primary)] transition-all duration-300 mt-1 ${isMenuOpen ? 'opacity-0' : ''}`}
-                animate={isMenuOpen ? { opacity: 0 } : { opacity: 1 }}
-              />
-              <motion.span 
-                className={`block h-0.5 w-6 bg-[color:var(--primary)] transition-all duration-300 mt-1 ${isMenuOpen ? '-rotate-45 -translate-y-1' : ''}`}
-                animate={isMenuOpen ? { rotate: -45, translateY: -4 } : { rotate: 0, translateY: 0 }}
-              />
-            </div>
-          </motion.button>
+            {isMenuOpen ? (
+              <X className="w-6 h-6" strokeWidth={2} style={{ stroke: '#374151' }} />
+            ) : (
+              <Menu className="w-6 h-6" strokeWidth={2} style={{ stroke: '#374151' }} />
+            )}
+          </button>
         </div>
       </div>
-    </motion.header>
 
-    {/* Enhanced Mobile Menu - Outside header for better layering */}
-    <AnimatePresence>
-      {isMenuOpen && (
-        <motion.div 
-          id="mobile-menu"
-          className="fixed inset-0 z-[9999] bg-[color:var(--primary)] flex flex-col"
-          initial={{ opacity: 0, y: "-100%" }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: "-100%" }}
-          transition={{ duration: 0.3, ease: "easeOut" }}
-        >
-          {/* Close button */}
-          <motion.button
-            className="absolute top-4 right-4 text-white/90 p-3 rounded-full hover:bg-white/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 z-[10001]"
-            onClick={() => setIsMenuOpen(false)}
-            aria-label="Sluit menu"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </motion.button>
-
-          {/* Menu content */}
-          <div className="flex-1 flex flex-col items-center justify-center px-6 pt-16">
-            <nav className="flex flex-col gap-6 items-center">
-              {navLinks.map((link, index) => (
-                <motion.div
-                  key={link.name}
-                  initial={{ opacity: 0, y: 50 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 + 0.2, duration: 0.5 }}
-                >
-                  <Link
-                    href={link.path}
-                    className="text-3xl font-bold text-white hover:text-[color:var(--secondary)] transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 rounded-lg px-4 py-2"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    {link.name}
-                  </Link>
-                </motion.div>
-              ))}
-              
+      {/* Mobile Menu - Portal to body for proper z-index stacking */}
+      {mounted && typeof window !== 'undefined' && document.body && createPortal(
+        <AnimatePresence>
+          {isMenuOpen && (
+            <>
+              {/* Full Screen Backdrop */}
               <motion.div
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6, duration: 0.5 }}
-                className="mt-8"
+                key="mobile-backdrop"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.25 }}
+                className="fixed inset-0 bg-black/60 backdrop-blur-sm lg:hidden"
+                style={{ 
+                  zIndex: 999998,
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  position: 'fixed',
+                }}
+                onClick={() => setIsMenuOpen(false)}
+              />
+              
+              {/* Menu Panel - Slide from Right */}
+              <motion.div
+                key="mobile-menu-panel"
+                initial={{ x: '100%' }}
+                animate={{ x: 0 }}
+                exit={{ x: '100%' }}
+                transition={{ 
+                  type: 'spring', 
+                  damping: 28, 
+                  stiffness: 280,
+                  mass: 0.9
+                }}
+                id="mobile-menu"
+                className="fixed top-0 right-0 bottom-0 w-full max-w-[320px] bg-white shadow-2xl lg:hidden overflow-hidden"
+                style={{ 
+                  zIndex: 999999,
+                  height: '100vh',
+                  position: 'fixed',
+                }}
+                onClick={(e) => e.stopPropagation()}
               >
+              {/* Header with Logo and Close Button */}
+              <div className="flex items-center justify-between px-4 h-16 border-b border-gray-200 bg-white shrink-0">
                 <Link
-                  href="/contact"
-                  className="inline-flex items-center justify-center px-10 py-4 text-xl font-bold text-[color:var(--primary)] bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 transform hover:scale-105"
+                  href="/"
                   onClick={() => setIsMenuOpen(false)}
+                  className="flex items-center"
                 >
-                  <svg className="mr-3 w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
-                  Gratis Offerte
+                  <Image
+                    src="/logobws.png"
+                    alt="BWS Schoonmaak Logo"
+                    width={120}
+                    height={40}
+                    className="h-8 w-auto object-contain"
+                    priority
+                    unoptimized
+                  />
                 </Link>
-              </motion.div>
-            </nav>
+                <button
+                  onClick={() => setIsMenuOpen(false)}
+                  className="p-2 rounded-lg hover:bg-gray-100 active:bg-gray-200 transition-colors touch-manipulation"
+                  aria-label="Sluit menu"
+                  style={{ minWidth: '44px', minHeight: '44px' }}
+                >
+                  <X className="w-6 h-6 text-gray-700" strokeWidth={2.5} />
+                </button>
+              </div>
 
-            {/* Contact info in mobile menu */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.8, duration: 0.5 }}
-              className="mt-12 text-center text-white/80"
-            >
-              <p className="text-sm">Of bel direct:</p>
-              <a href="tel:+31638935230" className="text-lg font-semibold text-white hover:text-[color:var(--secondary)] transition-colors">
-                06 38935230
-              </a>
+              {/* Menu Content - Scrollable */}
+              <div className="flex-1 overflow-y-auto" style={{ height: 'calc(100vh - 64px)' }}>
+                <nav className="flex flex-col px-4 py-4">
+                  {navLinks.map((link, index) => {
+                    const hasDropdown = link.dropdown && link.dropdown.length > 0;
+                    const isDropdownOpen = activeDropdown === link.name;
+                    
+                    return (
+                      <div key={link.name} className="mb-1">
+                        {hasDropdown ? (
+                          <>
+                            <button
+                              onClick={() => setActiveDropdown(isDropdownOpen ? null : link.name)}
+                              className={`w-full flex items-center justify-between px-4 py-3.5 text-base font-semibold rounded-lg transition-all duration-200 active:scale-[0.98] ${
+                                isActive(link.path)
+                                  ? "text-[color:var(--primary)] bg-[color:var(--primary)]/10"
+                                  : "text-gray-800 hover:bg-gray-50 active:bg-gray-100"
+                              }`}
+                              style={{ fontFamily: 'var(--font-inter), Inter, sans-serif' }}
+                            >
+                              <span>{link.name}</span>
+                              <motion.div
+                                animate={{ rotate: isDropdownOpen ? 180 : 0 }}
+                                transition={{ duration: 0.2 }}
+                              >
+                                <ChevronDown 
+                                  className="w-5 h-5 text-gray-600"
+                                  strokeWidth={2}
+                                />
+                              </motion.div>
+                            </button>
+                            <AnimatePresence>
+                              {isDropdownOpen && (
+                                <motion.div
+                                  initial={{ height: 0, opacity: 0 }}
+                                  animate={{ height: 'auto', opacity: 1 }}
+                                  exit={{ height: 0, opacity: 0 }}
+                                  transition={{ duration: 0.2 }}
+                                  className="overflow-hidden"
+                                >
+                                  <div className="ml-4 pl-4 border-l-2 border-gray-200 mt-1 mb-2 space-y-1">
+                                    {link.dropdown.map((item) => (
+                                      <Link
+                                        key={item.name}
+                                        href={item.path}
+                                        className="block px-4 py-2.5 text-sm text-gray-700 hover:text-[color:var(--primary)] hover:bg-[color:var(--primary)]/5 rounded-lg transition-all duration-150 active:scale-[0.98]"
+                                        onClick={() => {
+                                          setIsMenuOpen(false);
+                                          setActiveDropdown(null);
+                                        }}
+                                        style={{ fontFamily: 'var(--font-inter), Inter, sans-serif' }}
+                                      >
+                                        {item.name}
+                                      </Link>
+                                    ))}
+                                  </div>
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
+                          </>
+                        ) : (
+                          <Link
+                            href={link.path}
+                            className={`block px-4 py-3.5 text-base font-semibold rounded-lg transition-all duration-200 active:scale-[0.98] ${
+                              isActive(link.path)
+                                ? "text-[color:var(--primary)] bg-[color:var(--primary)]/10"
+                                : "text-gray-800 hover:bg-gray-50 active:bg-gray-100"
+                            }`}
+                            onClick={() => setIsMenuOpen(false)}
+                            style={{ fontFamily: 'var(--font-inter), Inter, sans-serif' }}
+                          >
+                            {link.name}
+                          </Link>
+                        )}
+                      </div>
+                    );
+                  })}
+                  
+                  {/* CTA Button */}
+                  <div className="mt-4 pt-4 border-t border-gray-200">
+                    <Link
+                      href="/contact"
+                      className="block w-full text-center px-6 py-3.5 text-base font-bold text-white rounded-lg transition-all duration-200 active:scale-[0.98] shadow-lg"
+                      style={{ 
+                        backgroundColor: '#0165f8',
+                        color: 'white',
+                      }}
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Contact
+                    </Link>
+                  </div>
+
+                  {/* Contact Info */}
+                  <div className="mt-6 pt-6 border-t border-gray-200 text-center">
+                    <p className="text-xs text-gray-500 mb-2 uppercase tracking-wide" style={{ fontFamily: 'var(--font-inter), Inter, sans-serif' }}>
+                      Bel direct
+                    </p>
+                    <a 
+                      href="tel:+31638935230" 
+                      className="text-lg font-bold text-[color:var(--primary)] active:opacity-70 transition-opacity"
+                      style={{ fontFamily: 'var(--font-poppins), Poppins, sans-serif' }}
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      06 38935230
+                    </a>
+                  </div>
+                </nav>
+              </div>
             </motion.div>
-          </div>
-        </motion.div>
+          </>
+        )}
+      </AnimatePresence>,
+      document.body
       )}
-    </AnimatePresence>
+    </motion.header>
     </>
   );
 };

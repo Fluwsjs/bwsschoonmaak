@@ -1,54 +1,26 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Image from "next/image";
-
-const transformationAreas = [
-  {
-    letter: "P",
-    title: "Planning",
-    description: "Elke ruimte is uniek en heeft specifieke schoonmaakbehoeften. Wij maken een persoonlijk schoonmaakplan dat perfect aansluit bij uw wensen en budget."
-  },
-  {
-    letter: "U", 
-    title: "Uitvoering",
-    description: "Onze ervaren teams zorgen voor consistente kwaliteit met professionele apparatuur en milieuvriendelijke middelen. Betrouwbaar en volgens afspraak."
-  },
-  {
-    letter: "C",
-    title: "Controle", 
-    description: "Kwaliteitscontrole en tevredenheid staan centraal. Wij monitoren onze service en passen aan waar nodig, zodat u altijd tevreden bent met het resultaat."
-  }
-];
+import { motion } from "framer-motion";
 
 export default function TransformationSection() {
   return (
-    <section className="section relative py-20 lg:py-24 bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute inset-0"
-          style={{
-            backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.3) 1px, transparent 0)`,
-            backgroundSize: '32px 32px'
-          }}
-        ></div>
-      </div>
+    <section className="section relative py-24 lg:py-32 overflow-hidden" style={{ backgroundColor: '#f8f9fb' }}>
 
-      <div className="container relative z-10 px-4 sm:px-6">
+      <div className="container relative z-10 px-6 sm:px-8 lg:px-10">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
+        <motion.div 
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
         >
-          <div className="text-sm font-medium text-blue-300 mb-4 uppercase tracking-wide">
+          <div className="text-sm font-medium mb-4 uppercase tracking-wide text-gray-600">
             ONZE WERKWIJZE
           </div>
-          <h2 className="text-3xl lg:text-4xl font-bold text-white mb-8">
-            Van eerste contact tot een{" "}
-            <span className="text-orange-400">langdurige samenwerking.</span>
+          <h2 className="text-3xl lg:text-4xl font-bold mb-8" style={{ color: 'var(--accent)' }}>
+            Specialist in zakelijke schoonmaak – al 20 jaar
           </h2>
         </motion.div>
 
@@ -57,60 +29,58 @@ export default function TransformationSection() {
           
           {/* Left Column - Text Content */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <p className="text-blue-100 text-lg leading-relaxed mb-12">
-              Goede schoonmaak begint met begrip van uw specifieke behoeften. Wij werken volgens een bewezen methode die zorgt voor consistente kwaliteit en tevreden klanten. Van de eerste kennismaking tot jarenlange samenwerking - bij BWS weet u wat u kunt verwachten.
-            </p>
+            <div className="space-y-5 sm:space-y-6 mb-6 sm:mb-8">
+              <p className="text-base sm:text-lg leading-relaxed text-gray-700">
+                Een schone werkplek is essentieel voor productiviteit en een professionele uitstraling. Ons familiebedrijf is al 20 jaar dé betrouwbare partner voor bedrijven die waarde hechten aan kwaliteit, continuïteit en persoonlijke service.
+              </p>
 
-            {/* Transformation Areas */}
-            <div className="space-y-8">
-              {transformationAreas.map((area, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
-                  className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300"
-                >
-                  <div className="flex items-start gap-4">
-                    {/* Letter Badge */}
-                    <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center flex-shrink-0">
-                      <span className="text-white font-bold text-lg">{area.letter}</span>
-                    </div>
-                    
-                    <div>
-                      <h3 className="text-white font-bold text-xl mb-3">{area.title}</h3>
-                      <p className="text-blue-100 leading-relaxed">{area.description}</p>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
+              {/* Service Points */}
+              <div className="space-y-3 sm:space-y-4">
+                <div className="flex items-start gap-2 sm:gap-3">
+                  <span className="text-green-600 font-bold text-lg sm:text-xl mt-0.5 sm:mt-1 flex-shrink-0">✔</span>
+                  <p className="text-sm sm:text-base leading-relaxed text-gray-700">Kantoor- en bedrijfsruimtes</p>
+                </div>
+                <div className="flex items-start gap-2 sm:gap-3">
+                  <span className="text-green-600 font-bold text-lg sm:text-xl mt-0.5 sm:mt-1 flex-shrink-0">✔</span>
+                  <p className="text-sm sm:text-base leading-relaxed text-gray-700">Periodiek onderhoud en specialistische reiniging</p>
+                </div>
+                <div className="flex items-start gap-2 sm:gap-3">
+                  <span className="text-green-600 font-bold text-lg sm:text-xl mt-0.5 sm:mt-1 flex-shrink-0">✔</span>
+                  <p className="text-sm sm:text-base leading-relaxed text-gray-700">Duurzame middelen en moderne technieken</p>
+                </div>
+              </div>
+
+              <p className="text-base sm:text-lg leading-relaxed text-gray-700 mt-5 sm:mt-6">
+                Wij werken efficiënt, discreet en altijd op maat. Zo kunt u zich volledig richten op uw business, terwijl wij zorgen voor een frisse en representatieve werkomgeving.
+              </p>
             </div>
           </motion.div>
 
           {/* Right Column - Image */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+          <motion.div 
+            className="relative"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="relative"
           >
-            <div className="relative w-full h-[600px] rounded-2xl overflow-hidden shadow-2xl">
+            <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] overflow-hidden image-overlay image-zoom"
+                 style={{
+                   borderRadius: '12px',
+                   boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)'
+                 }}>
               <Image
                 src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800&h=800&fit=crop"
-                alt="Professional cleaning team providing quality service"
+                alt="Professioneel schoonmaakteam"
                 fill
                 className="object-cover"
+                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 50vw"
               />
-              
-              {/* Overlay gradient */}
-              <div className="absolute inset-0 bg-gradient-to-t from-blue-900/20 to-transparent"></div>
             </div>
           </motion.div>
         </div>

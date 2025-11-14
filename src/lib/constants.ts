@@ -114,24 +114,21 @@ export const NAVIGATION = {
     { name: "Home", path: "/" },
     { name: "Diensten", path: "/diensten" },
     { name: "Projecten", path: "/projecten" },
-    { name: "Over ons", path: "/over-ons" },
     { name: "Contact", path: "/contact" }
   ],
   
   footer: {
     services: [
-      { name: "Kantoorschoonmaak", path: "/diensten#kantoor-bedrijfsschoonmaak" },
-      { name: "Glasbewassing", path: "/diensten#gevelreiniging-glasbewassing" },
-      { name: "Huishoudelijke hulp", path: "/diensten#huishoudelijke-hulp" },
-      { name: "Dieptereiniging", path: "/diensten#dieptereiniging" },
-      { name: "Nieuwbouw schoonmaak", path: "/diensten#nieuwbouw-schoonmaak" },
-      { name: "Vloeronderhoud", path: "/diensten#vloeronderhoud" }
+      { name: "Kantoorschoonmaak", path: "/diensten/kantoor-bedrijfsschoonmaak" },
+      { name: "Glasbewassing", path: "/diensten/gevelreiniging-glasbewassing" },
+      { name: "Huishoudelijke hulp", path: "/diensten/huishoudelijke-hulp" },
+      { name: "Sanitair- en hygiënereiniging", path: "/diensten/sanitair-hygienereiniging" },
+      { name: "Nieuwbouw schoonmaak", path: "/diensten/oplevering-nieuwbouw" },
+      { name: "Vloeronderhoud", path: "/diensten/vloeronderhoud-coating" }
     ],
     
     company: [
-      { name: "Over ons", path: "/over-ons" },
       { name: "Projecten", path: "/projecten" },
-      { name: "Onze aanpak", path: "/over-ons#onze-aanpak" },
       { name: "Contact", path: "/contact" }
     ],
     

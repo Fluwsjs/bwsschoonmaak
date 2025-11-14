@@ -1,17 +1,23 @@
 @import "tailwindcss";
 
+/* Hero animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(1deg); }
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --primary: #0864fc;
-  --secondary: #08ccfc;
-  --accent: #0654d3;
-  --light-bg: #f8fbff;
-  --primary-light: #2d7bfd;
-  --primary-dark: #0552d1;
-  --secondary-light: #3bd4fc;
-  --gradient-primary: linear-gradient(135deg, #0864fc, #08ccfc);
-  --gradient-secondary: linear-gradient(135deg, #08ccfc, #0864fc);
+  --primary: #0165f8; /* Primair blauw voor CTA's, links, belangrijke knoppen */
+  --secondary: #01cafe; /* Accent turquoise voor iconen, hovers, lichte accenten */
+  --accent: #0E1E40; /* Donkere basiskleur voor headings en donkere secties */
+  --light-bg: #f8f9fb; /* Achtergrond licht neutraal */
+  --primary-light: #3384ff;
+  --primary-dark: #0148c4;
+  --secondary-light: #33d8ff;
+  --gradient-primary: linear-gradient(135deg, #0165f8 0%, #01cafe 100%);
+  --gradient-secondary: linear-gradient(135deg, #01cafe 0%, #0165f8 100%);
 }
 
 @theme inline {
@@ -24,37 +30,79 @@
   --color-primary-light: var(--primary-light);
   --color-primary-dark: var(--primary-dark);
   --color-secondary-light: var(--secondary-light);
-  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-sans: var(--font-inter), 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-poppins: var(--font-poppins), 'Poppins', sans-serif;
   --font-mono: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #ffffff;
+    --foreground: #171717;
   }
 }
 
 html, body {
   background: var(--background);
   color: var(--foreground);
-  font-family: 'Sora', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--font-inter), 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-.body-text {
-  font-family: 'Sora', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+/* Prevent hydration mismatches */
+* {
+  box-sizing: border-box;
 }
 
+/* Ensure consistent rendering */
+html {
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+
+/* Loading state styles */
+.loading {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.loaded {
+  opacity: 1;
+}
+
+/* Typography - Body text */
+body, p, li, a, .body-text {
+  font-family: var(--font-inter), 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #2b2b2b;
+  line-height: 1.7;
+}
+
+/* Typography - Headings */
 h1, h2, h3, h4, h5, h6, .section-title, .section-subtitle, .heading, .title {
-  font-family: 'Manrope', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--font-poppins), 'Poppins', sans-serif;
+  color: #0E1E40;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+/* Specific heading weights */
+h1 {
+  font-weight: 900;
+}
+
+h2, h3 {
+  font-weight: 800;
+}
+
+h4, h5, h6 {
+  font-weight: 700;
 }
 
 /* Layout */
 .container {
-  @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+  @apply mx-auto max-w-[1200px] px-6 sm:px-8 lg:px-10;
 }
 
 /* Mobile optimization */
@@ -65,27 +113,34 @@ h1, h2, h3, h4, h5, h6, .section-title, .section-subtitle, .heading, .title {
 }
 
 .section {
-  @apply py-16 md:py-24 relative;
+  @apply py-24 md:py-32 relative;
 }
 
 /* Enhanced Buttons with new color scheme */
 .btn-primary {
-  @apply bg-[color:var(--primary)] hover:bg-[color:var(--primary-dark)] text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 inline-flex items-center justify-center shadow-lg hover:shadow-xl transform hover:-translate-y-1 hover:scale-105;
+  @apply text-white font-semibold py-3 px-6 transition-all duration-300 inline-flex items-center justify-center;
   background: var(--gradient-primary);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  font-weight: 600;
   min-height: 48px; /* Mobile touch target minimum */
   min-width: 48px;
-  border: 1px solid rgba(255,255,255,0.1);
-  backdrop-filter: blur(10px);
   font-size: 16px; /* Prevent zoom on iOS */
 }
 
 .btn-primary:hover {
-  background: var(--primary-dark);
-  box-shadow: 0 20px 40px rgba(8, 100, 252, 0.3);
+  box-shadow: 0 8px 32px rgba(1, 101, 248, 0.4);
+  transform: translateY(-3px);
+  background: linear-gradient(135deg, #0165f8 0%, #01cafe 100%);
+  filter: brightness(1.08);
 }
 
 .btn-outline {
-  @apply border-2 border-[color:var(--primary)] text-[color:var(--primary)] hover:bg-[color:var(--primary)] hover:text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 inline-flex items-center justify-center hover:shadow-lg transform hover:-translate-y-1 hover:scale-105;
+  @apply border-2 text-[color:var(--primary)] hover:text-white font-semibold py-3 px-6 transition-all duration-300 inline-flex items-center justify-center;
+  border-color: var(--primary);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  font-weight: 600;
   min-height: 48px;
   min-width: 48px;
   font-size: 16px;
@@ -105,18 +160,42 @@ h1, h2, h3, h4, h5, h6, .section-title, .section-subtitle, .heading, .title {
   z-index: -1;
 }
 
+.btn-outline:hover {
+  box-shadow: 0 6px 24px rgba(1, 101, 248, 0.2);
+  transform: translateY(-2px);
+  border-color: var(--secondary);
+}
+
 .btn-outline:hover::before {
   left: 0;
 }
 
 .btn-white {
-  @apply bg-white text-[color:var(--primary)] hover:bg-gray-50 font-semibold py-3 px-6 rounded-md transition-all duration-300 inline-flex items-center justify-center shadow-sm hover:shadow-md transform hover:-translate-y-0.5;
-  min-height: 44px;
+  @apply bg-white text-[color:var(--primary)] hover:bg-gray-50 font-semibold py-3 px-6 transition-all duration-300 inline-flex items-center justify-center;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  font-weight: 600;
+  min-height: 48px;
+}
+
+.btn-white:hover {
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+  color: var(--secondary);
 }
 
 .btn-white-outline {
-  @apply border-2 border-white text-white hover:bg-white hover:text-[color:var(--primary)] font-semibold py-3 px-6 rounded-md transition-all duration-300 inline-flex items-center justify-center hover:shadow-md transform hover:-translate-y-0.5;
-  min-height: 44px;
+  @apply border-2 border-white text-white hover:bg-white font-semibold py-3 px-6 transition-all duration-300 inline-flex items-center justify-center;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  font-weight: 600;
+  min-height: 48px;
+}
+
+.btn-white-outline:hover {
+  box-shadow: 0 6px 24px rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+  color: var(--primary);
 }
 
 /* Mobile-optimized buttons and touch interactions */
@@ -157,7 +236,8 @@ h1, h2, h3, h4, h5, h6, .section-title, .section-subtitle, .heading, .title {
 
 /* Text & Section Styles */
 .section-title {
-  @apply text-3xl md:text-4xl font-bold text-gray-900 mb-4;
+  @apply text-3xl md:text-4xl font-bold mb-4;
+  color: var(--accent);
 }
 
 .section-subtitle {
@@ -175,11 +255,18 @@ h1, h2, h3, h4, h5, h6, .section-title, .section-subtitle, .heading, .title {
 
 /* Enhanced Card Styles */
 .card {
-  @apply bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 hover:shadow-md transition-all duration-300;
+  @apply bg-white overflow-hidden border border-gray-100 transition-all duration-300;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.card:hover {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  transform: translateY(-4px);
 }
 
 .card-body {
-  @apply p-6;
+  @apply p-6 lg:p-8;
 }
 
 /* Mobile card optimization */
@@ -200,20 +287,20 @@ h1, h2, h3, h4, h5, h6, .section-title, .section-subtitle, .heading, .title {
 
 /* Clean Background Patterns with new colors */
 .bg-grid-pattern {
-  background-image: linear-gradient(to right, rgba(8, 100, 252, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(8, 100, 252, 0.03) 1px, transparent 1px);
+  background-image: linear-gradient(to right, rgba(1, 101, 248, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(1, 101, 248, 0.03) 1px, transparent 1px);
   background-size: 40px 40px;
 }
 
 .bg-dots-pattern {
-  background-image: radial-gradient(circle, rgba(8, 100, 252, 0.08) 1px, transparent 1px);
+  background-image: radial-gradient(circle, rgba(1, 101, 248, 0.08) 1px, transparent 1px);
   background-size: 20px 20px;
 }
 
 .bg-gradient-mesh {
-  background: radial-gradient(circle at 20% 80%, rgba(8, 100, 252, 0.1) 0%, transparent 50%),
-              radial-gradient(circle at 80% 20%, rgba(8, 204, 252, 0.1) 0%, transparent 50%),
-              radial-gradient(circle at 40% 40%, rgba(8, 100, 252, 0.05) 0%, transparent 50%);
+  background: radial-gradient(circle at 20% 80%, rgba(1, 101, 248, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 80% 20%, rgba(1, 202, 254, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 40% 40%, rgba(1, 101, 248, 0.05) 0%, transparent 50%);
 }
 
 /* Mobile pattern optimization */
@@ -310,6 +397,42 @@ h1, h2, h3, h4, h5, h6, .section-title, .section-subtitle, .heading, .title {
   color: white;
 }
 
+/* Icon styles - Consistent iconography */
+svg {
+  transition: transform 0.2s ease;
+}
+
+svg:hover {
+  transform: scale(1.1);
+}
+
+/* Icon colors - Use primary or secondary colors */
+.icon-primary {
+  stroke: var(--primary);
+  fill: none;
+}
+
+.icon-secondary {
+  stroke: var(--secondary);
+  fill: none;
+}
+
+.icon-accent {
+  stroke: var(--accent);
+  fill: none;
+}
+
+/* Lucide icons specific styling */
+.lucide {
+  stroke-width: 2;
+  transition: all 0.2s ease;
+}
+
+.lucide:hover {
+  transform: scale(1.1);
+  stroke: var(--secondary);
+}
+
 /* Smooth transitions for interactive elements */
 a, button, input, textarea, select {
   transition: all 0.2s ease-in-out;
@@ -317,10 +440,71 @@ a, button, input, textarea, select {
 
 /* Professional typography */
 .text-gradient {
-  background: linear-gradient(135deg, var(--primary), var(--accent));
+  background: linear-gradient(90deg, #0165f8, #01cafe);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+/* Scroll animations - Fade in on scroll */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* Image overlay styles */
+.image-overlay {
+  position: relative;
+}
+
+.image-overlay::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(1, 101, 248, 0.12), rgba(1, 202, 254, 0.12));
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+/* Image hover zoom effect */
+.image-zoom {
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.image-zoom:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* Floating animation for cards */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.card-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.card-float:hover {
+  animation-play-state: paused;
 }
 
 /* Loading states */
@@ -353,6 +537,36 @@ a, button, input, textarea, select {
   clip: auto;
   white-space: normal;
 }
+
+/* Brand color overrides for Tailwind blue utilities -> use site variables */
+.text-blue-600 { color: var(--primary) !important; }
+.text-blue-700 { color: var(--primary-dark) !important; }
+.text-blue-800 { color: var(--accent) !important; }
+.text-blue-300 { color: color-mix(in srgb, var(--secondary) 50%, white) !important; }
+.text-blue-100 { color: color-mix(in srgb, var(--secondary) 15%, white) !important; }
+
+.hover\:text-blue-600:hover { color: var(--primary) !important; }
+.hover\:text-blue-700:hover { color: var(--primary-dark) !important; }
+
+.bg-blue-50 { background-color: rgba(1, 101, 248, 0.05) !important; }
+.bg-blue-100 { background-color: rgba(1, 101, 248, 0.10) !important; }
+.bg-blue-200 { background-color: rgba(1, 101, 248, 0.20) !important; }
+
+.border-blue-100 { border-color: rgba(1, 101, 248, 0.10) !important; }
+.border-blue-200 { border-color: rgba(1, 101, 248, 0.20) !important; }
+
+/* Gradients using Tailwind variables */
+.from-blue-600 { --tw-gradient-from: var(--primary) !important; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(255, 255, 255, 0)); }
+.to-blue-700 { --tw-gradient-to: var(--primary-dark) !important; }
+.via-blue-800 { --tw-gradient-stops: var(--tw-gradient-from), var(--accent), var(--tw-gradient-to, rgba(255, 255, 255, 0)); }
+
+/* Ring/focus color */
+.ring-blue-600 { --tw-ring-color: var(--primary) !important; }
+.focus\:ring-blue-600:focus { --tw-ring-color: var(--primary) !important; }
+
+/* Group hover helpers */
+.group:hover .group-hover\:border-blue-200 { border-color: rgba(0, 101, 249, 0.20) !important; }
+.group:hover .group-hover\:bg-blue-200 { background-color: rgba(0, 101, 249, 0.20) !important; }
 
 /* Mobile-first responsive improvements */
 @media (min-width: 640px) {

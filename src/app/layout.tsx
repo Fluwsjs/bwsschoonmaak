@@ -1,26 +1,32 @@
 import type { Metadata } from "next";
+import { Poppins, Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import TopBar from "@/components/TopBar";
+import ScrollToTop from "@/components/ScrollToTop";
 import { PerformanceMonitor } from "@/components/PerformanceMonitor";
 import { SkipToContent } from "@/components/AccessibilityOptimized";
+import ErrorBoundary from "@/components/ErrorBoundary";
 import Script from "next/script";
 
-// Remove font imports temporarily until font files are available
-// const geistSans = localFont({
-//   src: "./fonts/GeistVF.woff2",
-//   variable: "--font-geist-sans",
-//   weight: "100 900",
-//   display: 'swap',
-//   preload: true,
-// });
+// Configure Poppins for headings (700-900 weights)
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["700", "800", "900"],
+  variable: "--font-poppins",
+  display: "swap",
+  preload: true,
+});
 
-// const geistMono = localFont({
-//   src: "./fonts/GeistMonoVF.woff2", 
-//   variable: "--font-geist-mono",
-//   weight: "100 900",
-//   display: 'swap',
-// });
+// Configure Inter for body text (400-600 weights)
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-inter",
+  display: "swap",
+  preload: true,
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://bwsschoonmaak.nl'),
@@ -163,16 +169,6 @@ export default function RootLayout({
   return (
     <html lang="nl">
       <head>
-        {/* Preconnect to external domains */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        
-        {/* Google Fonts as fallback */}
-        <link 
-          href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700&display=swap" 
-          rel="stylesheet" 
-        />
-        
         {/* Favicon and app icons */}
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/icon.svg" type="image/svg+xml" />
@@ -196,17 +192,21 @@ export default function RootLayout({
         <link rel="preload" href="/hero-image.jpg" as="image" />
         <link rel="dns-prefetch" href="//www.google-analytics.com" />
       </head>
-      <body className="antialiased font-sans">
+      <body className={`${inter.variable} ${poppins.variable} antialiased font-sans`} style={{ fontFamily: 'var(--font-inter), system-ui, sans-serif' }}>
         <SkipToContent />
         <PerformanceMonitor />
+        <ScrollToTop />
         
-        <div className="min-h-screen flex flex-col">
-          <Header />
-          <main id="main-content" className="flex-grow">
-            {children}
-          </main>
-          <Footer />
-        </div>
+        <ErrorBoundary>
+          <div className="min-h-screen flex flex-col">
+            <TopBar />
+            <Header />
+            <main id="main-content" className="flex-grow">
+              {children}
+            </main>
+            <Footer />
+          </div>
+        </ErrorBoundary>
         
         {/* Google Analytics */}
         <Script

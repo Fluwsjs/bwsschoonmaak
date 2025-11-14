@@ -23,22 +23,6 @@ export default function ProjectSectie({ projects }: ProjectSectieProps) {
   return (
     <section className="section bg-gray-50 py-16 lg:py-24">
       <div className="container px-4 sm:px-6">
-        <motion.div
-          className="text-center mb-12 lg:mb-16"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4" style={{ color: 'var(--accent)' }}>
-            Onze Projecten
-          </h2>
-          <p className="text-gray-600 max-w-3xl mx-auto text-base sm:text-lg leading-relaxed">
-            Ontdek hoe wij onze klanten hebben geholpen met professionele schoonmaakoplossingen. 
-            Van kantoren tot zorgcentra, van scholen tot restaurants - wij leveren altijd kwaliteit met oog voor detail.
-          </p>
-        </motion.div>
-
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {projects.map((project, index) => (
             <motion.div

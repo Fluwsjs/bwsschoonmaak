@@ -184,10 +184,10 @@ const StatistiekenSectie = () => {
               Vraag vandaag nog een vrijblijvende offerte aan.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/contact" className="btn-white">
+              <Link href="/contact/" className="btn-white">
                 Offerte aanvragen
               </Link>
-              <Link href="/diensten" className="btn-white-outline">
+              <Link href="/diensten/" className="btn-white-outline">
                 Bekijk diensten
               </Link>
             </div>

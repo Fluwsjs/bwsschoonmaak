@@ -132,7 +132,7 @@ export default function MainServices() {
                 {/* CTA Button */}
                 <div className="mt-auto">
                   <Link 
-                    href="/diensten"
+                    href="/diensten/"
                     className={`inline-flex items-center gap-2 ${colors.button} font-semibold transition-colors`}
                   >
                     {service.linkText}

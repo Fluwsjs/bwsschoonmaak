@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Phone } from "lucide-react";
 
 const Hero = () => {
@@ -48,8 +49,8 @@ const Hero = () => {
           
           {/* CTA Button */}
           <div className="mt-8 sm:mt-10 px-4">
-            <a 
-              href="/contact" 
+            <Link 
+              href="/contact/" 
               className="inline-flex items-center gap-2 sm:gap-3 text-white px-6 sm:px-8 md:px-10 py-3 sm:py-4 md:py-5 rounded-xl font-semibold text-base sm:text-lg md:text-xl transition-all duration-300 hover:shadow-2xl active:scale-95"
               style={{ 
                 backgroundColor: 'white',
@@ -62,7 +63,7 @@ const Hero = () => {
             >
               <Phone className="w-5 h-5 sm:w-6 sm:h-6 lucide" strokeWidth={2} style={{ stroke: 'var(--primary)' }} />
               <span className="whitespace-nowrap">Neem contact op</span>
-            </a>
+            </Link>
           </div>
 
           {/* Optional: Subtle tagline */}

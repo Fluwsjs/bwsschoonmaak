@@ -304,7 +304,7 @@ const Header = () => {
               {/* Menu Content - Scrollable */}
               <div className="flex-1 overflow-y-auto" style={{ height: 'calc(100vh - 64px)' }}>
                 <nav className="flex flex-col px-4 py-4">
-                  {navLinks.map((link, index) => {
+                  {navLinks.map((link) => {
                     const hasDropdown = link.dropdown && link.dropdown.length > 0;
                     const isDropdownOpen = activeDropdown === link.name;
                     

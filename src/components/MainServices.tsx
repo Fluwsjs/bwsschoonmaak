@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 const services = [
@@ -131,13 +131,13 @@ export default function MainServices() {
 
                 {/* CTA Button */}
                 <div className="mt-auto">
-                  <a 
+                  <Link 
                     href="/diensten"
                     className={`inline-flex items-center gap-2 ${colors.button} font-semibold transition-colors`}
                   >
                     {service.linkText}
                     <ArrowRight className="w-4 h-4 lucide" strokeWidth={2} style={{ stroke: 'currentColor' }} />
-                  </a>
+                  </Link>
                 </div>
               </div>
             );

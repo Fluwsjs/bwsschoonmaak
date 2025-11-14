@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
 
@@ -183,12 +184,12 @@ const StatistiekenSectie = () => {
               Vraag vandaag nog een vrijblijvende offerte aan.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href="/contact" className="btn-white">
+              <Link href="/contact" className="btn-white">
                 Offerte aanvragen
-              </a>
-              <a href="/diensten" className="btn-white-outline">
+              </Link>
+              <Link href="/diensten" className="btn-white-outline">
                 Bekijk diensten
-              </a>
+              </Link>
             </div>
           </div>
         </motion.div>

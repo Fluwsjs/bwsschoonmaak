@@ -454,5 +454,5 @@ const ServicesGridBWS = () => {
 };
 
 export default HeroBWS;
-export { NavbarBWS, ServicesGridBWS };
+export { ServicesGridBWS };
 

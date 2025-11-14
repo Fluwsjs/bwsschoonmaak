@@ -5,7 +5,7 @@ import { Phone } from "lucide-react";
 
 const Hero = () => {
   return (
-    <section className="relative pt-16 pb-16 sm:pb-20 md:pb-24 lg:pb-32 min-h-[60vh] sm:min-h-[70vh] flex items-center justify-center overflow-hidden lg:pt-[113px]" 
+    <section className="relative pt-16 pb-16 sm:pb-20 md:pb-24 lg:pb-32 min-h-[60vh] sm:min-h-[70vh] flex items-center justify-center overflow-hidden lg:pt-20" 
       style={{
         background: 'linear-gradient(135deg, #0165f8 0%, #01cafe 100%)',
       }}

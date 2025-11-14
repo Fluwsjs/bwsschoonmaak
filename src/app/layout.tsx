@@ -3,7 +3,6 @@ import { Poppins, Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import TopBar from "@/components/TopBar";
 import ScrollToTop from "@/components/ScrollToTop";
 import { PerformanceMonitor } from "@/components/PerformanceMonitor";
 import { SkipToContent } from "@/components/AccessibilityOptimized";
@@ -199,7 +198,6 @@ export default function RootLayout({
         
         <ErrorBoundary>
           <div className="min-h-screen flex flex-col">
-            <TopBar />
             <Header />
             <main id="main-content" className="flex-grow">
               {children}
